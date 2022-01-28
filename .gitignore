@@ -1,0 +1,10 @@
+# 가상환경
+venv/
+
+# django
+__pycache__/
+migrations/
+
+# react
+node_modules/
+*.log
