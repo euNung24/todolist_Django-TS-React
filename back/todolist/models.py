@@ -1,3 +1,7 @@
 from django.db import models
+from django.utils.timezone import now
 
-# Create your models here.
+class Todolist(models.Model):
+  todo = models.TextField()
+  date = models.DateField(default=now)
+  isFinished = models.BooleanField(default=False)
