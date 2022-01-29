@@ -7,7 +7,7 @@ module.exports = {
     app: "./src/index",
   },
   resolve: {
-    extensions: [".js", ".tsx"],
+    extensions: [".ts", ".tsx", ".js"],
   },
   module: {
     rules: [
@@ -25,13 +25,16 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname + "/dist"),
-    publicPath: "/",
+    publicPath: "/dist",
     filename: "bundle.js",
   },
   devServer: {
     devMiddleware: { publicPath: "/dist" },
     static: { directory: path.join(__dirname) },
     hot: true,
-    proxy: { "/todolist": "http://localhost:8000" },
+    proxy: {
+      "/todolist": "http://localhost:8000",
+      "/post": "http://localhost:8000",
+    },
   },
 };
