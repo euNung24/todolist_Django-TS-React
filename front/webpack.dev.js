@@ -34,7 +34,6 @@ module.exports = {
     hot: true,
     proxy: {
       "/todolist": "http://localhost:8000",
-      "/post": "http://localhost:8000",
     },
   },
 };
