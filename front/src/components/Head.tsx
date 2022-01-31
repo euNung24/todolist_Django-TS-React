@@ -1,7 +1,9 @@
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import styled from "styled-components";
+import { setDate } from "../actions/DateActions";
 
 const StyledHead = styled.header`
   background: #cdcdcd;
@@ -13,16 +15,24 @@ const StyledH2 = styled.h2`
 
 const Head = () => {
   const [count, setCount] = useState(0);
-  let todayDate = moment().locale("ko").add(count, "days").format("L");
+  const dispatch = useDispatch();
+
+  const getDate = (count: number) => {
+    const todayDate = moment().locale("ko").add(count, "days").format("L");
+    return todayDate;
+  };
+
+  useEffect(() => {
+    dispatch(setDate(getDate(count)));
+    return;
+  }, [count]);
 
   const clickPrev = () => {
     setCount((prevState) => prevState - 1);
-    todayDate = moment().locale("ko").add(count, "days").format("L");
   };
 
   const clickNext = () => {
     setCount((prevState) => prevState + 1);
-    todayDate = moment().locale("ko").add(count, "days").format("L");
   };
 
   return (
@@ -32,7 +42,7 @@ const Head = () => {
         <button type="button" onClick={clickPrev}>
           ◀
         </button>
-        <span>{todayDate}</span>
+        <span>{getDate(count)}</span>
         <button type="button" onClick={clickNext}>
           ▶
         </button>

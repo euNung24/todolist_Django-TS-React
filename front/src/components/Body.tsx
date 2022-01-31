@@ -11,7 +11,7 @@ const StyledBody = styled.section`
 `;
 
 export interface ListTypes {
-  id: number;
+  id?: number;
   todo: string;
   date: string;
   isFinished: boolean;
@@ -20,8 +20,8 @@ export interface ListTypes {
 const Body = () => {
   const dispatch = useDispatch();
   const { ids, todolist } = useSelector((state: TodoState) => ({
-    ids: state.ids,
-    todolist: state.todolist,
+    ids: state.todolist.ids,
+    todolist: state.todolist.todolist,
   }));
   const lists = ids.map((id) => todolist[id]);
   console.log(ids, todolist);
@@ -35,7 +35,7 @@ const Body = () => {
         {lists.map((list) => (
           <li key={list.id}>
             {list.todo}
-            <DeleteButton id={list.id.toString()} />
+            <DeleteButton id={list.id!.toString()} />
           </li>
         ))}
       </ul>
