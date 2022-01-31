@@ -2,23 +2,15 @@ import React, { useRef } from "react";
 import axios from "axios";
 import moment from "moment";
 
-const postData = async (todo: string) =>
-  axios.post("/todolist/", {
-    todo: todo,
-    date: moment().locale("ko").format("YYYY-MM-DD"),
-    isFinished: false,
-  });
-
 const Input = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const todo = inputRef.current!.value;
-    postData(todo);
-    console.log({
+    axios.post("/todolist/", {
       todo: todo,
-      date: moment().locale("ko").format("YYYY-MM-DD"),
+      date: moment().locale("ko").format("L"),
       isFinished: false,
     });
   };

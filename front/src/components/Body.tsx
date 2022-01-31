@@ -1,33 +1,44 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { setTodoThunk } from "../actions/TodoActions";
+import DeleteButton from "./DeleteButton";
 import Input from "./Input";
+import { TodoState } from "./Todolist";
 
 const StyledBody = styled.section`
   background: #f2f2f2;
 `;
 
-interface ListTypes {
+export interface ListTypes {
+  id: number;
   todo: string;
   date: string;
   isFinished: boolean;
 }
 
-const getData = async () => {
-  const response = axios.get<ListTypes>("/todolist");
-  return (await response).data;
-};
-
 const Body = () => {
-  const [lists, setLists] = useState<ListTypes[]>([]);
+  const dispatch = useDispatch();
+  const { ids, todolist } = useSelector((state: TodoState) => ({
+    ids: state.ids,
+    todolist: state.todolist,
+  }));
+  const lists = ids.map((id) => todolist[id]);
+  console.log(ids, todolist);
   useEffect(() => {
-    axios.get<ListTypes[]>("/todolist").then((res) => setLists(res.data));
+    dispatch(setTodoThunk());
   }, []);
+
   return (
     <StyledBody>
-      {lists.map((list) => (
-        <li key={list.todo}>{list.todo}</li>
-      ))}
+      <ul>
+        {lists.map((list) => (
+          <li key={list.id}>
+            {list.todo}
+            <DeleteButton id={list.id.toString()} />
+          </li>
+        ))}
+      </ul>
       <Input />
     </StyledBody>
   );
