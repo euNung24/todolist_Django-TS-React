@@ -27,10 +27,6 @@ const Body = () => {
   }));
   const lists = ids.map((id) => todolist[id]);
   console.log(ids, todolist);
-  useEffect(() => {
-    const convertDate = moment(date).locale("ko").format("YYYY-MM-DD");
-    setTodoThunk(dispatch, () => initState, convertDate);
-  }, []);
 
   return (
     <StyledBody>
