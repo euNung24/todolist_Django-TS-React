@@ -28,6 +28,11 @@ const Head = () => {
     return todayDate;
   };
 
+  const getDay = (count: number) => {
+    const todayDate = moment().locale("ko").add(count, "days").format("dddd");
+    return todayDate;
+  };
+
   useEffect(() => {
     dispatch(setDate(getDate(count)));
     return;
@@ -52,6 +57,7 @@ const Head = () => {
           ◀
         </button>
         <span>{getDate(count)}</span>
+        <span>{getDay(count)}</span>
         <button type="button" onClick={clickNext}>
           ▶
         </button>
