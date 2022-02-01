@@ -34,9 +34,11 @@ export type TodoAction =
 
 type Thunk = ThunkAction<void, TodoState, null, TodoAction>;
 
-export const setTodoThunk = (): Thunk => {
+export const setTodoThunk = (date: string): Thunk => {
   return (dispatch: Function) => {
-    axios.get("/todolist").then(({ data }) => dispatch(setTodo(data)));
+    axios
+      .get("/todolist", { params: { date: date } })
+      .then(({ data }) => dispatch(setTodo(data)));
   };
 };
 

@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -19,14 +20,17 @@ export interface ListTypes {
 
 const Body = () => {
   const dispatch = useDispatch();
-  const { ids, todolist } = useSelector((state: TodoState) => ({
+  const { ids, todolist, date } = useSelector((state: TodoState) => ({
     ids: state.todolist.ids,
     todolist: state.todolist.todolist,
+    date: state.date.date,
   }));
   const lists = ids.map((id) => todolist[id]);
   console.log(ids, todolist);
   useEffect(() => {
-    dispatch(setTodoThunk());
+    const convertDate = moment(date).locale("ko").format("YYYY-MM-DD");
+
+    dispatch(setTodoThunk(convertDate));
   }, []);
 
   return (

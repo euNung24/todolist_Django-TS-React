@@ -10,3 +10,11 @@ class  TodolistSerializer(serializers.ModelSerializer):
 class TodoListViewSet(viewsets.ModelViewSet):
   queryset = Todolist.objects.all()
   serializer_class = TodolistSerializer
+  
+  def get_queryset(self):
+    qs = super().get_queryset();
+
+    input = self.request.query_params.get('date')
+    if input:
+       qs = qs.filter(date=input)
+    return qs
