@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { setTodoThunk } from "../actions/TodoActions";
 import DeleteButton from "./DeleteButton";
 import Input from "./Input";
-import { TodoState } from "./Todolist";
+import { initState, TodoState } from "./Todolist";
 
 const StyledBody = styled.section`
   background: #f2f2f2;
@@ -29,8 +29,7 @@ const Body = () => {
   console.log(ids, todolist);
   useEffect(() => {
     const convertDate = moment(date).locale("ko").format("YYYY-MM-DD");
-
-    dispatch(setTodoThunk(convertDate));
+    setTodoThunk(dispatch, () => initState, convertDate);
   }, []);
 
   return (

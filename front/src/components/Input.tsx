@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createTodoThunk } from "../actions/TodoActions";
-import { TodoState } from "./Todolist";
+import { initState, TodoState } from "./Todolist";
 
 const Input = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -14,13 +14,11 @@ const Input = () => {
     e.preventDefault();
     const todo = inputRef.current!.value;
     console.log(date);
-    dispatch(
-      createTodoThunk({
-        todo,
-        date,
-        isFinished: false,
-      })
-    );
+    createTodoThunk(dispatch, () => initState, {
+      todo,
+      date,
+      isFinished: false,
+    });
   };
 
   return (

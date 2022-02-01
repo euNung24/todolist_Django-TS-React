@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTodoThunk } from "../actions/TodoActions";
 import { ListTypes } from "./Body";
-import { TodoState } from "./Todolist";
+import { initState, TodoState } from "./Todolist";
 
 interface DeleteBtnProps {
   id: string;
@@ -20,7 +20,7 @@ const DeleteButton = ({ id }: DeleteBtnProps) => {
   const handleClick = () => {
     console.log(ref.current);
     const todo: ListTypes = todolist[+ref.current];
-    dispatch(deleteTodoThunk(ref.current, todo));
+    deleteTodoThunk(dispatch, () => initState, { id: ref.current, todo });
   };
 
   return (
