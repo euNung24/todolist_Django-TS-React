@@ -19,6 +19,7 @@ const Input = () => {
       date,
       isFinished: false,
     });
+    inputRef.current!.value = "";
   };
 
   return (
