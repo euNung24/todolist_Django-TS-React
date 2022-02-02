@@ -7,12 +7,34 @@ import { setDate } from "../actions/DateActions";
 import { setTodoThunk } from "../actions/TodoActions";
 import { initState, TodoState } from "./Todolist";
 
+import { MdArrowLeft, MdArrowRight } from "react-icons/md";
+
 const StyledHead = styled.header`
-  background: #cdcdcd;
+  height: 120px;
+  background: #b496c3;
+  padding: 20px 20px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const StyledH2 = styled.h2`
   font-size: 42px;
+  text-align: center;
+`;
+
+type SpanProps = {
+  day: boolean;
+};
+
+const StyledSpan = styled.span<SpanProps>`
+  ${(props) => (props.day ? "margin-left: 10px;" : null)}
+`;
+
+const StyledButtonWrapper = styled.div`
+  margin-top: auto;
+  display: flex;
+  align-items: center;
 `;
 
 const Head = () => {
@@ -52,16 +74,16 @@ const Head = () => {
   return (
     <StyledHead>
       <StyledH2>TO DO LIST</StyledH2>
-      <div>
+      <StyledButtonWrapper>
         <button type="button" onClick={clickPrev}>
-          ◀
+          <MdArrowLeft />
         </button>
-        <span>{getDate(count)}</span>
-        <span>{getDay(count)}</span>
+        <StyledSpan day={false}>{getDate(count)}</StyledSpan>
+        <StyledSpan day>{getDay(count)}</StyledSpan>
         <button type="button" onClick={clickNext}>
-          ▶
+          <MdArrowRight />
         </button>
-      </div>
+      </StyledButtonWrapper>
     </StyledHead>
   );
 };

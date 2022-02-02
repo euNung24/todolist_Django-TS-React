@@ -4,13 +4,23 @@ import { deleteTodoThunk } from "../actions/TodoActions";
 import { ListTypes } from "./Body";
 import { initState, TodoState } from "./Todolist";
 
+import { FaTrashAlt } from "react-icons/fa";
+import styled from "styled-components";
+
 interface DeleteBtnProps {
-  id: string;
+  id: number;
 }
+
+const StyledButton = styled.button`
+  margin-left: auto;
+  &:hover {
+    color: #d93d4e;
+  }
+`;
 
 const DeleteButton = ({ id }: DeleteBtnProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const ref = useRef<string>(id);
+  const ref = useRef<number>(id);
 
   const dispatch = useDispatch();
   const { todolist } = useSelector((state: TodoState) => ({
@@ -24,9 +34,9 @@ const DeleteButton = ({ id }: DeleteBtnProps) => {
   };
 
   return (
-    <button type="button" onClick={handleClick} ref={buttonRef}>
-      삭제
-    </button>
+    <StyledButton type="button" onClick={handleClick} ref={buttonRef}>
+      <FaTrashAlt style={{ fontSize: "20px" }} />
+    </StyledButton>
   );
 };
 

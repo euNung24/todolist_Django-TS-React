@@ -12,7 +12,7 @@ export const setTodo = (todolist: ListTypes[]) => ({
   payload: todolist,
 });
 
-const deleteTodo = (id: string, todo: ListTypes) => ({
+const deleteTodo = (id: number, todo: ListTypes) => ({
   type: DELETE_TODO,
   payload: {
     deleteTodo: {
@@ -45,7 +45,7 @@ export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
 export const deleteTodoThunk: ThunkAction<
   void,
   TodoState,
-  { id: string; todo: ListTypes },
+  { id: number; todo: ListTypes },
   TodoAction
 > = (dispatch, _, { id, todo }) => {
   axios.delete(`/todolist/${id}`).then((_) => dispatch(deleteTodo(id, todo)));

@@ -2,6 +2,32 @@ import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createTodoThunk } from "../actions/TodoActions";
 import { initState, TodoState } from "./Todolist";
+import styled from "styled-components";
+import { BiCheckbox } from "react-icons/bi";
+import { BsPatchPlusFill } from "react-icons/bs";
+
+const StyledForm = styled.form`
+  display: flex;
+  align-items: center;
+  label {
+    width: 0;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+  }
+`;
+
+const StyledButton = styled.button`
+  margin-left: auto;
+  &:hover {
+    color: #6440a7;
+  }
+`;
+
+const StyledInput = styled.input`
+  width: 80%;
+  padding: 5px;
+`;
 
 const Input = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -23,11 +49,19 @@ const Input = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="todo"></label>
-      <input type="text" id="todo" ref={inputRef} />
-      <button type="submit">확인</button>
-    </form>
+    <StyledForm onSubmit={handleSubmit}>
+      <BiCheckbox />
+      <label htmlFor="todo">할 일 입력</label>
+      <StyledInput
+        type="text"
+        id="todo"
+        ref={inputRef}
+        placeholder="할 일을 입력하세요."
+      />
+      <StyledButton type="submit">
+        <BsPatchPlusFill style={{ fontSize: "20px" }} />
+      </StyledButton>
+    </StyledForm>
   );
 };
 

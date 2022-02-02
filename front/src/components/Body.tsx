@@ -1,14 +1,21 @@
-import moment from "moment";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { setTodoThunk } from "../actions/TodoActions";
-import DeleteButton from "./DeleteButton";
 import Input from "./Input";
-import { initState, TodoState } from "./Todolist";
+import { TodoState } from "./Todolist";
+import ListItem from "./ListItem";
 
 const StyledBody = styled.section`
-  background: #f2f2f2;
+  height: calc(100% - 120px);
+  background: rgba(255, 255, 255, 0.7);
+  padding: 10px 20px;
+`;
+
+const StyledH3 = styled.h3`
+  width: 0;
+  height: 0;
+  font-size: 0;
+  line-height: 0;
 `;
 
 export interface ListTypes {
@@ -19,8 +26,7 @@ export interface ListTypes {
 }
 
 const Body = () => {
-  const dispatch = useDispatch();
-  const { ids, todolist, date } = useSelector((state: TodoState) => ({
+  const { ids, todolist } = useSelector((state: TodoState) => ({
     ids: state.todolist.ids,
     todolist: state.todolist.todolist,
     date: state.date.date,
@@ -30,12 +36,15 @@ const Body = () => {
 
   return (
     <StyledBody>
+      <StyledH3>To do List 목록</StyledH3>
       <ul>
         {lists.map((list) => (
-          <li key={list.id}>
-            {list.todo}
-            <DeleteButton id={list.id!.toString()} />
-          </li>
+          <ListItem
+            key={list.id}
+            isFinished={list.isFinished}
+            todo={list.todo}
+            id={list.id!}
+          />
         ))}
       </ul>
       <Input />
