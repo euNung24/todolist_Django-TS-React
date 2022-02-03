@@ -29,7 +29,6 @@ const Body = () => {
   const { ids, todolist } = useSelector((state: TodoState) => ({
     ids: state.todolist.ids,
     todolist: state.todolist.todolist,
-    date: state.date.date,
   }));
   const lists = ids.map((id) => todolist[id]);
   console.log(ids, todolist);
