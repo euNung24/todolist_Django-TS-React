@@ -25,8 +25,9 @@ const StyledButton = styled.button`
 `;
 
 const StyledInput = styled.input`
-  width: 80%;
+  flex-grow: 1;
   padding: 5px;
+  margin-right: 10px;
 `;
 
 const Input = () => {

@@ -1,4 +1,4 @@
-export const SET_DATE = "todolist/SET_DATE" as const;
+export const SET_DATE = "date/SET_DATE" as const;
 
 export const setDate = (date: string) => ({
   type: SET_DATE,

@@ -30,6 +30,7 @@ type SpanProps = {
 
 const StyledSpan = styled.span<SpanProps>`
   font-family: "Black Han Sans", sans-serif;
+  font-size: 18px;
 `;
 
 const StyledButtonWrapper = styled.div`

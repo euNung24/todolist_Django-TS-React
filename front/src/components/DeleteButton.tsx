@@ -13,6 +13,7 @@ interface DeleteBtnProps {
 
 const StyledButton = styled.button`
   margin-left: auto;
+  color: #5e5955;
   &:hover {
     color: #d93d4e;
   }
@@ -20,7 +21,7 @@ const StyledButton = styled.button`
 
 const DeleteButton = ({ id }: DeleteBtnProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const ref = useRef<number>(id);
+  const idRef = useRef<number>(id);
 
   const dispatch = useDispatch();
   const { todolist } = useSelector((state: TodoState) => ({
@@ -28,9 +29,9 @@ const DeleteButton = ({ id }: DeleteBtnProps) => {
   }));
 
   const handleClick = () => {
-    console.log(ref.current);
-    const todo: ListTypes = todolist[+ref.current];
-    deleteTodoThunk(dispatch, () => initState, { id: ref.current, todo });
+    console.log(idRef.current);
+    const todo: ListTypes = todolist[idRef.current];
+    deleteTodoThunk(dispatch, () => initState, { id: idRef.current, todo });
   };
 
   return (
