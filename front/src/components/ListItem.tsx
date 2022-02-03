@@ -28,7 +28,7 @@ const ListItem = ({ isFinished, todo, id }: ListItemProps) => {
   };
   return (
     <StyledLi onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <CheckButton check={isFinished} />
+      <CheckButton check={isFinished} id={id} />
       {todo}
       {showDelete ? <DeleteButton id={id} /> : null}
     </StyledLi>

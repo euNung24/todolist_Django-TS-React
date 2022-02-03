@@ -3,6 +3,7 @@ import {
   DELETE_TODO,
   SET_TODO,
   TodoAction,
+  UPDATE_TODO,
 } from "../actions/TodoActions";
 
 const todolist = (state = {}, action: TodoAction) => {
@@ -24,6 +25,12 @@ const todolist = (state = {}, action: TodoAction) => {
         deleteTodo,
       };
     case CREATE_TODO: {
+      return {
+        ...state,
+      };
+    }
+    case UPDATE_TODO: {
+      // const updateTodo = action.payload;
       return {
         ...state,
       };
