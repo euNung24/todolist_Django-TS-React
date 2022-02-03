@@ -12,7 +12,7 @@ import { MdArrowLeft, MdArrowRight } from "react-icons/md";
 const StyledHead = styled.header`
   height: 120px;
   background: #b496c3;
-  padding: 20px 20px 10px;
+  padding: 30px 10px 0px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -20,6 +20,7 @@ const StyledHead = styled.header`
 
 const StyledH2 = styled.h2`
   font-size: 42px;
+  font-family: "Rowdies", cursive;
   text-align: center;
 `;
 
@@ -28,7 +29,7 @@ type SpanProps = {
 };
 
 const StyledSpan = styled.span<SpanProps>`
-  ${(props) => (props.day ? "margin-left: 10px;" : null)}
+  font-family: "Black Han Sans", sans-serif;
 `;
 
 const StyledButtonWrapper = styled.div`
@@ -51,7 +52,7 @@ const Head = () => {
   };
 
   const getDay = (count: number) => {
-    const todayDate = moment().locale("ko").add(count, "days").format("dddd");
+    const todayDate = moment().locale("ko").add(count, "days").format("ddd");
     return todayDate;
   };
 
@@ -73,7 +74,7 @@ const Head = () => {
 
   return (
     <StyledHead>
-      <StyledH2>TO DO LIST</StyledH2>
+      <StyledH2>To Do List</StyledH2>
       <StyledButtonWrapper>
         <button type="button" onClick={clickPrev}>
           <MdArrowLeft />
