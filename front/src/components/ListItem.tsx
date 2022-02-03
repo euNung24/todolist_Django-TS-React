@@ -1,16 +1,8 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 
 import CheckButton from "./CheckButton";
 import DeleteButton from "./DeleteButton";
-
-const StyledLi = styled.li`
-  margin-bottom: 5px;
-  display: flex;
-  align-items: center;
-  font-family: "Gamja Flower", cursive;
-  font-size: 20px;
-`;
+import { StyledLi } from "../styles/ListItemStyle";
 
 type ListItemProps = {
   isFinished: boolean;
@@ -28,6 +20,7 @@ const ListItem = ({ isFinished, todo, id }: ListItemProps) => {
   const handleMouseLeave = () => {
     setShowDelete(false);
   };
+
   return (
     <StyledLi onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <CheckButton check={isFinished} id={id} />

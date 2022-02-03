@@ -5,19 +5,11 @@ import { ListTypes } from "./Body";
 import { initState, TodoState } from "./Todolist";
 
 import { FaTrashAlt } from "react-icons/fa";
-import styled from "styled-components";
+import { StyledDeleteButton } from "../styles/ButtonStyle";
 
-interface DeleteBtnProps {
+type DeleteBtnProps = {
   id: number;
-}
-
-const StyledButton = styled.button`
-  margin-left: auto;
-  color: #5e5955;
-  &:hover {
-    color: #d93d4e;
-  }
-`;
+};
 
 const DeleteButton = ({ id }: DeleteBtnProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -35,9 +27,9 @@ const DeleteButton = ({ id }: DeleteBtnProps) => {
   };
 
   return (
-    <StyledButton type="button" onClick={handleClick} ref={buttonRef}>
+    <StyledDeleteButton type="button" onClick={handleClick} ref={buttonRef}>
       <FaTrashAlt style={{ fontSize: "20px" }} />
-    </StyledButton>
+    </StyledDeleteButton>
   );
 };
 

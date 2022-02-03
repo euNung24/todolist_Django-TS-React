@@ -1,29 +1,17 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
 import Input from "./Input";
 import { TodoState } from "./Todolist";
 import ListItem from "./ListItem";
 
-const StyledBody = styled.section`
-  height: calc(100% - 120px);
-  background: rgba(255, 255, 255, 0.7);
-  padding: 10px 20px;
-`;
+import { StyledBody, StyledH3 } from "../styles/BodyStyle";
 
-const StyledH3 = styled.h3`
-  width: 0;
-  height: 0;
-  font-size: 0;
-  line-height: 0;
-`;
-
-export interface ListTypes {
+export type ListTypes = {
   id?: number;
   todo: string;
   date: string;
   isFinished: boolean;
-}
+};
 
 const Body = () => {
   const { ids, todolist } = useSelector((state: TodoState) => ({

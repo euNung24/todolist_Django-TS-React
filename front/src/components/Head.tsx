@@ -2,42 +2,16 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import styled from "styled-components";
 import { setDate } from "../actions/DateActions";
 import { setTodoThunk } from "../actions/TodoActions";
 import { initState, TodoState } from "./Todolist";
-
+import {
+  StyledHead,
+  StyledH2,
+  StyledButtonWrapper,
+  StyledSpan,
+} from "../styles/HeadStyle";
 import { MdArrowLeft, MdArrowRight } from "react-icons/md";
-
-const StyledHead = styled.header`
-  height: 120px;
-  background: #b496c3;
-  padding: 30px 10px 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-const StyledH2 = styled.h2`
-  font-size: 42px;
-  font-family: "Rowdies", cursive;
-  text-align: center;
-`;
-
-type SpanProps = {
-  day: boolean;
-};
-
-const StyledSpan = styled.span<SpanProps>`
-  font-family: "Black Han Sans", sans-serif;
-  font-size: 18px;
-`;
-
-const StyledButtonWrapper = styled.div`
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-`;
 
 const Head = () => {
   const [count, setCount] = useState(0);
