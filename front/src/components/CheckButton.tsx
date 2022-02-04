@@ -24,6 +24,7 @@ const CheckButton = ({ check, id }: CheckButtonProps) => {
 
   const handleClick = () => {
     updateTodoThunk(dispatch, () => initState, { id, isFinished: check });
+    setInterval(() => setIsCheck((prev) => prev), 1000);
   };
 
   return (

@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setDate } from "../actions/DateActions";
-import { setTodoThunk } from "../actions/TodoActions";
-import { initState, TodoState } from "./Todolist";
+import { TodoState } from "./Todolist";
 import {
   StyledHead,
   StyledH2,
@@ -44,7 +43,6 @@ const Head = () => {
     setCount((prevState) => prevState + 1);
     const convertDate = moment(date).locale("ko").format("YYYY-MM-DD");
     console.log(convertDate);
-    setTodoThunk(dispatch, () => initState, convertDate);
   };
 
   return (

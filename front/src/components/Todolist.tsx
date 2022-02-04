@@ -15,6 +15,7 @@ export type TodoState = {
   todolist: {
     ids: number[];
     todolist: { [id: number]: ListTypes };
+    errMsg?: string;
   };
   date: { date: string };
 };
@@ -39,7 +40,9 @@ const Todolist = () => {
   return (
     <Provider store={store}>
       <IconContext.Provider
-        value={{ style: { fontSize: "30px", verticalAlign: "middle" } }}
+        value={{
+          style: { fontSize: "30px", verticalAlign: "middle", color: "#000" },
+        }}
       >
         <GlobalStyle />
         <WrappedStyle>

@@ -14,9 +14,10 @@ export type ListTypes = {
 };
 
 const Body = () => {
-  const { ids, todolist } = useSelector((state: TodoState) => ({
+  const { ids, todolist, errMsg } = useSelector((state: TodoState) => ({
     ids: state.todolist.ids,
     todolist: state.todolist.todolist,
+    errMsg: state.todolist.errMsg,
   }));
   const lists = ids.map((id) => todolist[id]);
   console.log(ids, todolist);
@@ -34,6 +35,7 @@ const Body = () => {
           />
         ))}
       </ul>
+      {errMsg && <p>{errMsg}</p>}
       <Input />
     </StyledBody>
   );

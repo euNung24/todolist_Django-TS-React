@@ -1,6 +1,7 @@
 import {
   CREATE_TODO,
   DELETE_TODO,
+  ERROR,
   SET_TODO,
   TodoAction,
   UPDATE_TODO,
@@ -30,7 +31,11 @@ const todolist = (state = {}, action: TodoAction) => {
       };
     }
     case UPDATE_TODO: {
-      // const updateTodo = action.payload;
+      return {
+        ...state,
+      };
+    }
+    case ERROR: {
       return {
         ...state,
       };

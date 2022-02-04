@@ -27,7 +27,7 @@ const Input = () => {
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      {/* <BiCheckbox /> */}
+      <BiCheckbox />
       <label htmlFor="todo">할 일 입력</label>
       <StyledInput
         type="text"

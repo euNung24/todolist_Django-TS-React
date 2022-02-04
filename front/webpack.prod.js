@@ -16,7 +16,12 @@ module.exports = {
       {
         test: /\.tsx?/,
         use: [
-          "babel-loader",
+          {
+            loader: "babel-loader",
+            options: {
+              plugins: ["transform-remove-console"],
+            },
+          },
           {
             loader: "ts-loader",
           },

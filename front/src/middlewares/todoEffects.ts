@@ -6,6 +6,7 @@ import {
   DELETE_TODO,
   UPDATE_TODO,
   setTodoThunk,
+  showError,
 } from "../actions/TodoActions";
 import { initState, TodoState } from "../components/Todolist";
 
@@ -18,13 +19,18 @@ export const todoEffect: Middleware<{}, TodoState> =
       action.type == CREATE_TODO ||
       action.type == UPDATE_TODO
     ) {
-      const state = store.getState();
-      console.log(state);
-      const convertDate = moment(state.date.date)
-        .locale("ko")
-        .format("YYYY-MM-DD");
+      try {
+        const state = store.getState();
+        console.log(state);
+        console.log(state.date.date)
+        const convertDate = moment(state.date.date, 'YYYY.MM.DD.', true)
+          .locale("ko")
+          .format("YYYY-MM-DD");
 
-      setTodoThunk(store.dispatch, () => initState, convertDate);
+        setTodoThunk(store.dispatch, () => initState, convertDate);
+      } catch (error) {
+        store.dispatch(showError("오류발생"));
+      }
     }
     return result;
   };

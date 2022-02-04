@@ -7,6 +7,7 @@ export const SET_TODO = "todolist/SET_TODO" as const;
 export const DELETE_TODO = "todolist/DELETE_TODO" as const;
 export const CREATE_TODO = "todolist/CREATE_TODO" as const;
 export const UPDATE_TODO = "todolist/UPDATE_TODO" as const;
+export const ERROR = "todolist/ERROR" as const;
 
 export const setTodo = (todolist: ListTypes[]) => ({
   type: SET_TODO,
@@ -33,20 +34,34 @@ const updateTodo = (todolist: ListTypes) => ({
   payload: todolist,
 });
 
+export const showError = (errMsg: string) => ({
+  type: ERROR,
+  payload: { errMsg },
+});
+
 export type TodoAction =
   | ReturnType<typeof setTodo>
   | ReturnType<typeof deleteTodo>
   | ReturnType<typeof createTodo>
-  | ReturnType<typeof updateTodo>;
+  | ReturnType<typeof updateTodo>
+  | ReturnType<typeof showError>;
+
+const Api = axios.create({
+  baseURL: "https://pandamon24.pythonanywhere.com",
+});
 
 export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
   dispatch,
   _,
   date
 ) => {
-  axios
-    .get("/todolist", { params: { date: date } })
-    .then(({ data }) => dispatch(setTodo(data)));
+  Api.get("/todolist", {
+    params: { date: date },
+  }).then(({ data }) => {
+    dispatch(setTodo(data));
+    console.log(Array.isArray(data));
+    console.log("data: ", data);
+  });
 };
 
 export const deleteTodoThunk: ThunkAction<
@@ -55,7 +70,7 @@ export const deleteTodoThunk: ThunkAction<
   { id: number; todo: ListTypes },
   TodoAction
 > = (dispatch, _, { id, todo }) => {
-  axios.delete(`/todolist/${id}`).then((_) => dispatch(deleteTodo(id, todo)));
+  Api.delete(`/todolist/${id}`).then((_) => dispatch(deleteTodo(id, todo)));
 };
 
 export const createTodoThunk: ThunkAction<
@@ -65,9 +80,9 @@ export const createTodoThunk: ThunkAction<
   TodoAction
 > = (dispatch, _, todolist) => {
   console.log(todolist);
-  axios
-    .post(`/todolist/`, todolist)
-    .then(({ data }) => dispatch(createTodo(data)));
+  Api.post(`/todolist/`, todolist).then(({ data }) =>
+    dispatch(createTodo(data))
+  );
 };
 
 export const updateTodoThunk: ThunkAction<
@@ -76,7 +91,7 @@ export const updateTodoThunk: ThunkAction<
   { id: number; isFinished: boolean },
   TodoAction
 > = (dispatch, _, { id, isFinished }) => {
-  axios
-    .patch(`/todolist/${id}/`, { isFinished: !isFinished })
-    .then(({ data }) => dispatch(updateTodo(data)));
+  Api.patch(`/todolist/${id}/`, {
+    isFinished: !isFinished,
+  }).then(({ data }) => dispatch(updateTodo(data)));
 };
