@@ -41,7 +41,7 @@ const Todolist = () => {
     <Provider store={store}>
       <IconContext.Provider
         value={{
-          style: { fontSize: "30px", verticalAlign: "middle", color: "#000" },
+          style: { fontSize: "30px", verticalAlign: "middle" },
         }}
       >
         <GlobalStyle />

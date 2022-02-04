@@ -1,18 +1,12 @@
 import React, { useState } from "react";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
-import { updateTodoThunk } from "../actions/TodoActions";
-import { useDispatch } from "react-redux";
-import { initState } from "./Todolist";
-import { StyledCheckButton } from "../styles/ButtonStyle";
 
 type CheckButtonProps = {
   check: boolean;
-  id: number;
 };
 
-const CheckButton = ({ check, id }: CheckButtonProps) => {
+const CheckButton = ({ check }: CheckButtonProps) => {
   const [isCheck, setIsCheck] = useState<boolean>(check);
-  const dispatch = useDispatch();
 
   const handleMouseEnter = () => {
     setIsCheck(!check);
@@ -22,20 +16,14 @@ const CheckButton = ({ check, id }: CheckButtonProps) => {
     setIsCheck(check);
   };
 
-  const handleClick = () => {
-    updateTodoThunk(dispatch, () => initState, { id, isFinished: check });
-    setInterval(() => setIsCheck((prev) => prev), 1000);
-  };
-
   return (
-    <StyledCheckButton
+    <button
       type="button"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
     >
       {isCheck ? <BiCheckboxChecked /> : <BiCheckbox />}
-    </StyledCheckButton>
+    </button>
   );
 };
 

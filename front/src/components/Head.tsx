@@ -1,9 +1,8 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { setDate } from "../actions/DateActions";
-import { TodoState } from "./Todolist";
 import {
   StyledHead,
   StyledH2,
@@ -15,10 +14,6 @@ import { MdArrowLeft, MdArrowRight } from "react-icons/md";
 const Head = () => {
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
-
-  const { date } = useSelector((state: TodoState) => ({
-    date: state.date.date,
-  }));
 
   const getDate = (count: number) => {
     const todayDate = moment().locale("ko").add(count, "days").format("L");
@@ -41,8 +36,6 @@ const Head = () => {
 
   const clickNext = () => {
     setCount((prevState) => prevState + 1);
-    const convertDate = moment(date).locale("ko").format("YYYY-MM-DD");
-    console.log(convertDate);
   };
 
   return (

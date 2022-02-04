@@ -12,6 +12,7 @@ export const GlobalStyle = createGlobalStyle`
     background: none;
     padding: 0;
     cursor: pointer;
+    color: #000;
   }
 
   input {

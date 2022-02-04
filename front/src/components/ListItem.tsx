@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
+import { updateTodoThunk } from "../actions/TodoActions";
+import { initState } from "./Todolist";
+import { useDispatch } from "react-redux";
 
-import CheckButton from "./CheckButton";
 import DeleteButton from "./DeleteButton";
 import { StyledLi } from "../styles/ListItemStyle";
+import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 
 type ListItemProps = {
   isFinished: boolean;
@@ -11,21 +14,32 @@ type ListItemProps = {
 };
 
 const ListItem = ({ isFinished, todo, id }: ListItemProps) => {
-  const [showDelete, setShowDelete] = useState<boolean>(false);
+  const DeleteRef = useRef<boolean>(false);
+  const dispatch = useDispatch();
 
   const handleMouseEnter = () => {
-    setShowDelete(true);
+    DeleteRef.current = true;
   };
 
   const handleMouseLeave = () => {
-    setShowDelete(false);
+    DeleteRef.current = false;
+  };
+
+  const handleClick = () => {
+    updateTodoThunk(dispatch, () => initState, { id, isFinished });
   };
 
   return (
-    <StyledLi onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <CheckButton check={isFinished} id={id} />
+    <StyledLi
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+    >
+      <button type="button">
+        {isFinished ? <BiCheckboxChecked /> : <BiCheckbox />}
+      </button>
       {todo}
-      {showDelete ? <DeleteButton id={id} /> : null}
+      {DeleteRef.current ? <DeleteButton id={id} /> : null}
     </StyledLi>
   );
 };

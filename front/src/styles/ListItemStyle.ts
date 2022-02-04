@@ -6,4 +6,9 @@ export const StyledLi = styled.li`
   align-items: center;
   font-family: "Gamja Flower", cursive;
   font-size: 20px;
+  &:hover,
+  &:hover > * {
+    color: #5e5955;
+  }
+  cursor: pointer;
 `;
