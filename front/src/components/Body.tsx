@@ -13,7 +13,6 @@ const Body = () => {
     errMsg: state.todolist.errMsg,
   }));
   const lists = ids.map((id) => todolist[id]);
-  console.log(ids, todolist);
 
   return (
     <StyledBody>
