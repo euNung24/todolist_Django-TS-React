@@ -6,14 +6,9 @@ import { useDispatch } from "react-redux";
 import DeleteButton from "./DeleteButton";
 import { StyledLi } from "../styles/ListItemStyle";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
+import { TodoType } from "../types/apiTypes";
 
-type ListItemProps = {
-  isFinished: boolean;
-  todo: any;
-  id: number;
-};
-
-const ListItem = ({ isFinished, todo, id }: ListItemProps) => {
+const ListItem = ({ isFinished, todo, id }: Omit<TodoType, 'date'>) => {
   const DeleteRef = useRef<boolean>(false);
   const [check, setCheck] = useState<boolean>(isFinished);
   const dispatch = useDispatch();
@@ -29,7 +24,7 @@ const ListItem = ({ isFinished, todo, id }: ListItemProps) => {
   };
 
   const handleClick = () => {
-    updateTodoThunk(dispatch, () => initState, { id, isFinished });
+    updateTodoThunk(dispatch, () => initState, { id: id!, isFinished });
     setCheck((prev) => !prev);
   };
 
@@ -39,7 +34,7 @@ const ListItem = ({ isFinished, todo, id }: ListItemProps) => {
         {check ? <BiCheckboxChecked /> : <BiCheckbox />}
       </button>
       {todo}
-      {DeleteRef.current ? <DeleteButton id={id} /> : null}
+      {DeleteRef.current ? <DeleteButton id={id!} /> : null}
     </StyledLi>
   );
 };

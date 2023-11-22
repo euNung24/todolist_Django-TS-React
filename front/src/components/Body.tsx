@@ -6,13 +6,6 @@ import ListItem from "./ListItem";
 
 import { StyledBody, StyledH3 } from "../styles/BodyStyle";
 
-export type ListTypes = {
-  id?: number;
-  todo: string;
-  date: string;
-  isFinished: boolean;
-};
-
 const Body = () => {
   const { ids, todolist, errMsg } = useSelector((state: TodoState) => ({
     ids: state.todolist.ids,

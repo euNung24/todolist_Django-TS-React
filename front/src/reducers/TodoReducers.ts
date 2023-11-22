@@ -1,11 +1,5 @@
-import {
-  CREATE_TODO,
-  DELETE_TODO,
-  ERROR,
-  SET_TODO,
-  TodoAction,
-  UPDATE_TODO,
-} from "../actions/TodoActions";
+import { TodoAction } from "../types/actionTypes";
+import { CREATE_TODO, DELETE_TODO, ERROR, SET_TODO, UPDATE_TODO } from "../actions/constant";
 
 const todolist = (state = {}, action: TodoAction) => {
   switch (action.type) {
@@ -46,5 +40,3 @@ const todolist = (state = {}, action: TodoAction) => {
 };
 
 export default todolist;
-
-export type Todolist_Action = ReturnType<typeof todolist>;

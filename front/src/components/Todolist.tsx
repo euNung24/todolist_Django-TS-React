@@ -6,15 +6,16 @@ import thunk from "redux-thunk";
 import { todoEffect } from "../middlewares/todoEffects";
 import reducers from "../reducers/index";
 
-import Body, { ListTypes } from "./Body";
+import Body from "./Body";
 import Head from "./Head";
 import { GlobalStyle, WrappedStyle } from "../styles/TodoListStyle";
 import { IconContext } from "react-icons";
+import { TodoType } from "../types/apiTypes";
 
 export type TodoState = {
   todolist: {
     ids: number[];
-    todolist: { [id: number]: ListTypes };
+    todolist: { [id: number]: TodoType };
     errMsg?: string;
   };
   date: { date: string };

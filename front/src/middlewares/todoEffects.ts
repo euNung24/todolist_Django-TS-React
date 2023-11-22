@@ -1,14 +1,11 @@
 import moment from "moment";
 import { Middleware } from "redux";
-import { SET_DATE } from "../actions/DateActions";
 import {
-  CREATE_TODO,
-  DELETE_TODO,
-  UPDATE_TODO,
   setTodoThunk,
   showError,
 } from "../actions/TodoActions";
 import { initState, TodoState } from "../components/Todolist";
+import { CREATE_TODO, DELETE_TODO, SET_DATE, UPDATE_TODO } from "../actions/constant";
 
 export const todoEffect: Middleware<{}, TodoState> =
   (store) => (nextRunner) => (action) => {

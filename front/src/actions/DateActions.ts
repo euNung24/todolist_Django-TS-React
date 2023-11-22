@@ -1,8 +1,7 @@
-export const SET_DATE = "date/SET_DATE" as const;
+import { SET_DATE } from "./constant";
 
 export const setDate = (date: string) => ({
   type: SET_DATE,
   payload: { date },
 });
 
-export type DateAction = ReturnType<typeof setDate>;

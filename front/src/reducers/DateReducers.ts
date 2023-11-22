@@ -1,4 +1,5 @@
-import { SET_DATE, DateAction } from "../actions/DateActions";
+import { DateAction } from "../types/actionTypes";
+import { SET_DATE } from "../actions/constant";
 
 const date = (state = {}, action: DateAction) => {
   const { type, payload } = action;

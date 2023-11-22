@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTodoThunk } from "../actions/TodoActions";
-import { ListTypes } from "./Body";
 import { initState, TodoState } from "./Todolist";
 
 import { FaTrashAlt } from "react-icons/fa";
 import { StyledDeleteButton } from "../styles/ButtonStyle";
+import { TodoType } from "../types/apiTypes";
 
 type DeleteBtnProps = {
   id: number;
@@ -22,7 +22,7 @@ const DeleteButton = ({ id }: DeleteBtnProps) => {
 
   const handleClick = () => {
     console.log(idRef.current);
-    const todo: ListTypes = todolist[idRef.current];
+    const todo: TodoType = todolist[idRef.current];
     deleteTodoThunk(dispatch, () => initState, { id: idRef.current, todo });
   };
 

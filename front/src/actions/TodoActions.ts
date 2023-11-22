@@ -1,20 +1,16 @@
 import axios from "axios";
 import { ThunkAction } from "redux-thunk";
-import { ListTypes } from "../components/Body";
 import { TodoState } from "../components/Todolist";
+import { TodoAction } from "../types/actionTypes";
+import { CREATE_TODO, DELETE_TODO, ERROR, SET_TODO, UPDATE_TODO } from "./constant";
+import { TodoType } from "../types/apiTypes";
 
-export const SET_TODO = "todolist/SET_TODO" as const;
-export const DELETE_TODO = "todolist/DELETE_TODO" as const;
-export const CREATE_TODO = "todolist/CREATE_TODO" as const;
-export const UPDATE_TODO = "todolist/UPDATE_TODO" as const;
-export const ERROR = "todolist/ERROR" as const;
-
-export const setTodo = (todolist: ListTypes[]) => ({
+export const setTodo = (todolist: TodoType[]) => ({
   type: SET_TODO,
   payload: todolist,
 });
 
-const deleteTodo = (id: number, todo: ListTypes) => ({
+export const deleteTodo = (id: number, todo: TodoType) => ({
   type: DELETE_TODO,
   payload: {
     deleteTodo: {
@@ -24,12 +20,12 @@ const deleteTodo = (id: number, todo: ListTypes) => ({
   },
 });
 
-const createTodo = (todolist: ListTypes) => ({
+export const createTodo = (todolist: TodoType) => ({
   type: CREATE_TODO,
   payload: todolist,
 });
 
-const updateTodo = (todolist: ListTypes) => ({
+export const updateTodo = (todolist: TodoType) => ({
   type: UPDATE_TODO,
   payload: todolist,
 });
@@ -38,13 +34,6 @@ export const showError = (errMsg: string) => ({
   type: ERROR,
   payload: { errMsg },
 });
-
-export type TodoAction =
-  | ReturnType<typeof setTodo>
-  | ReturnType<typeof deleteTodo>
-  | ReturnType<typeof createTodo>
-  | ReturnType<typeof updateTodo>
-  | ReturnType<typeof showError>;
 
 const Api = axios.create({
   baseURL: "https://pandamon24.pythonanywhere.com",
@@ -67,7 +56,7 @@ export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
 export const deleteTodoThunk: ThunkAction<
   void,
   TodoState,
-  { id: number; todo: ListTypes },
+  { id: number; todo: TodoType },
   TodoAction
 > = (dispatch, _, { id, todo }) => {
   Api.delete(`/todolist/${id}`).then((_) => dispatch(deleteTodo(id, todo)));
@@ -76,7 +65,7 @@ export const deleteTodoThunk: ThunkAction<
 export const createTodoThunk: ThunkAction<
   void,
   TodoState,
-  ListTypes,
+  TodoType,
   TodoAction
 > = (dispatch, _, todolist) => {
   console.log(todolist);
