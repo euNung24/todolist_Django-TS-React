@@ -16,14 +16,19 @@ const DeleteButton = ({ id }: DeleteBtnProps) => {
   const idRef = useRef<number>(id);
 
   const dispatch = useDispatch();
-  const { todolist } = useSelector((state: TodoState) => ({
+  const { todolist, date } = useSelector((state: TodoState) => ({
     todolist: state.todolist.todolist,
+    date: state.date.date,
   }));
 
   const handleClick = () => {
     console.log(idRef.current);
     const todo: TodoType = todolist[idRef.current];
-    deleteTodoThunk(dispatch, () => initState, { id: idRef.current, todo });
+    deleteTodoThunk(dispatch, () => initState, {
+      id: idRef.current,
+      todo,
+      date,
+    });
   };
 
   return (

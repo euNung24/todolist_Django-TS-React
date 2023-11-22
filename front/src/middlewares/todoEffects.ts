@@ -1,11 +1,13 @@
 import moment from "moment";
 import { Middleware } from "redux";
-import {
-  setTodoThunk,
-  showError,
-} from "../actions/TodoActions";
+import { setTodoThunk, showError } from "../actions/TodoActions";
 import { initState, TodoState } from "../components/Todolist";
-import { CREATE_TODO, DELETE_TODO, SET_DATE, UPDATE_TODO } from "../actions/constant";
+import {
+  CREATE_TODO,
+  DELETE_TODO,
+  SET_DATE,
+  UPDATE_TODO,
+} from "../actions/constant";
 
 export const todoEffect: Middleware<{}, TodoState> =
   (store) => (nextRunner) => (action) => {
@@ -19,8 +21,8 @@ export const todoEffect: Middleware<{}, TodoState> =
       try {
         const state = store.getState();
         console.log(state);
-        console.log(state.date.date)
-        const convertDate = moment(state.date.date, 'YYYY.MM.DD.', true)
+        console.log(state.date.date);
+        const convertDate = moment(state.date.date, "YYYY.MM.DD", true)
           .locale("ko")
           .format("YYYY-MM-DD");
 

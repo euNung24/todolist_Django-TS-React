@@ -1,16 +1,18 @@
 import React, { useRef, useState } from "react";
 import { updateTodoThunk } from "../actions/TodoActions";
-import { initState } from "./Todolist";
-import { useDispatch } from "react-redux";
-
+import { initState, TodoState } from "./Todolist";
+import { useDispatch, useSelector } from "react-redux";
 import DeleteButton from "./DeleteButton";
 import { StyledLi } from "../styles/ListItemStyle";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 import { TodoType } from "../types/apiTypes";
 
-const ListItem = ({ isFinished, todo, id }: Omit<TodoType, 'date'>) => {
+const ListItem = ({ isFinished, todo, id }: Omit<TodoType, "date">) => {
   const DeleteRef = useRef<boolean>(false);
   const [check, setCheck] = useState<boolean>(isFinished);
+  const { date } = useSelector((state: TodoState) => ({
+    date: state.date.date,
+  }));
   const dispatch = useDispatch();
 
   const handleMouseEnter = () => {
@@ -24,7 +26,7 @@ const ListItem = ({ isFinished, todo, id }: Omit<TodoType, 'date'>) => {
   };
 
   const handleClick = () => {
-    updateTodoThunk(dispatch, () => initState, { id: id!, isFinished });
+    updateTodoThunk(dispatch, () => initState, { id, isFinished, date });
     setCheck((prev) => !prev);
   };
 
@@ -34,7 +36,7 @@ const ListItem = ({ isFinished, todo, id }: Omit<TodoType, 'date'>) => {
         {check ? <BiCheckboxChecked /> : <BiCheckbox />}
       </button>
       {todo}
-      {DeleteRef.current ? <DeleteButton id={id!} /> : null}
+      {DeleteRef.current ? <DeleteButton id={id} /> : null}
     </StyledLi>
   );
 };

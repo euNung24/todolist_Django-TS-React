@@ -18,6 +18,7 @@ const Input = () => {
     const todo = inputRef.current!.value;
     console.log(date);
     createTodoThunk(dispatch, () => initState, {
+      id: new Date().getTime(),
       todo,
       date,
       isFinished: false,
