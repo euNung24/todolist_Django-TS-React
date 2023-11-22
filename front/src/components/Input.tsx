@@ -16,7 +16,6 @@ const Input = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const todo = inputRef.current!.value;
-    console.log(date);
     createTodoThunk(dispatch, () => initState, {
       todo,
       date,

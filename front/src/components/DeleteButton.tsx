@@ -21,7 +21,6 @@ const DeleteButton = ({ id }: DeleteBtnProps) => {
   }));
 
   const handleClick = () => {
-    console.log(idRef.current);
     const todo: TodoType = todolist[idRef.current];
     deleteTodoThunk(dispatch, () => initState, { id: idRef.current, todo });
   };
