@@ -9,9 +9,7 @@ import { StyledForm, StyledInput, StyledButton } from "../styles/InputStyle";
 const Input = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
-  const { date } = useSelector((state: TodoState) => ({
-    date: state.date.date,
-  }));
+  const { date } = useSelector((state: TodoState) => state.date);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

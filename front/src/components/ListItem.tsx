@@ -10,9 +10,7 @@ import { TodoType } from "../types/apiTypes";
 const ListItem = ({ isFinished, todo, id }: Omit<TodoType, "date">) => {
   const DeleteRef = useRef<boolean>(false);
   const [check, setCheck] = useState<boolean>(isFinished);
-  const { date } = useSelector((state: TodoState) => ({
-    date: state.date.date,
-  }));
+  const { date } = useSelector((state: TodoState) => state.date);
   const dispatch = useDispatch();
 
   const handleMouseEnter = () => {
