@@ -1,4 +1,3 @@
-import moment from "moment";
 import { Middleware } from "redux";
 import { setTodoThunk, showError } from "../actions/TodoActions";
 import { initState, TodoState } from "../components/Todolist";
@@ -20,10 +19,7 @@ export const todoEffect: Middleware<{}, TodoState> =
     ) {
       try {
         const state = store.getState();
-        const convertDate = moment(state.date.date, "YYYY.MM.DD.", true)
-          .locale("ko")
-          .format("YYYY.MM.DD.");
-        setTodoThunk(store.dispatch, () => initState, convertDate);
+        setTodoThunk(store.dispatch, () => initState, state.date.date);
       } catch (error) {
         store.dispatch(showError("오류발생"));
       }
