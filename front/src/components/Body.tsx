@@ -7,11 +7,7 @@ import ListItem from "./ListItem";
 import { StyledBody, StyledH3 } from "../styles/BodyStyle";
 
 const Body = () => {
-  const { ids, todolist, errMsg } = useSelector((state: TodoState) => ({
-    ids: state.todolist.ids,
-    todolist: state.todolist.todolist,
-    errMsg: state.todolist.errMsg,
-  }));
+  const { ids, todolist, errMsg } = useSelector((state: TodoState) => state.todolist);
   const lists = ids.map((id) => todolist[id]);
 
   return (
