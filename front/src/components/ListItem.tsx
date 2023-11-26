@@ -15,12 +15,12 @@ const ListItem = ({ isFinished, todo, id }: Omit<TodoType, "date">) => {
 
   const handleMouseEnter = () => {
     DeleteRef.current = true;
-    setCheck((prev) => !prev);
+    setCheck(!isFinished);
   };
 
   const handleMouseLeave = () => {
     DeleteRef.current = false;
-    setCheck((prev) => !prev);
+    setCheck(isFinished);
   };
 
   const handleClick = () => {
