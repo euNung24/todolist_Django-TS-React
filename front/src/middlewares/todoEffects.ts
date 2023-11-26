@@ -18,13 +18,7 @@ export const todoEffect: Middleware<{}, TodoState> =
     ) {
       try {
         const state = store.getState();
-        console.log(state);
-        console.log(state.date.date)
-        const convertDate = moment(state.date.date, 'YYYY.MM.DD.', true)
-          .locale("ko")
-          .format("YYYY-MM-DD");
-
-        setTodoThunk(store.dispatch, () => initState, convertDate);
+        setTodoThunk(store.dispatch, () => initState, state.date.date);
       } catch (error) {
         store.dispatch(showError("오류발생"));
       }

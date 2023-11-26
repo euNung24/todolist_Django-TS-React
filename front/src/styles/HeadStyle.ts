@@ -15,11 +15,7 @@ export const StyledH2 = styled.h2`
   text-align: center;
 `;
 
-type SpanProps = {
-  day: boolean;
-};
-
-export const StyledSpan = styled.span<SpanProps>`
+export const StyledSpan = styled.span`
   font-family: "Black Han Sans", sans-serif;
   font-size: 18px;
 `;

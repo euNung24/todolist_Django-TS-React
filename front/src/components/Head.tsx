@@ -1,33 +1,34 @@
-import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { setDate } from "../actions/DateActions";
 import {
-  StyledHead,
-  StyledH2,
   StyledButtonWrapper,
+  StyledH2,
+  StyledHead,
   StyledSpan,
 } from "../styles/HeadStyle";
 import { MdArrowLeft, MdArrowRight } from "react-icons/md";
 
+const weekday = ["일", "월", "화", "수", "목", "금", "토"];
 const Head = () => {
+  const today = new Date();
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
 
   const getDate = (count: number) => {
-    const todayDate = moment().locale("ko").add(count, "days").format("L");
-    return todayDate;
-  };
-
-  const getDay = (count: number) => {
-    const todayDate = moment().locale("ko").add(count, "days").format("ddd");
-    return todayDate;
+    const newDate = new Date(today.getTime() + 1000 * 24 * 60 * 60 * count);
+    const year = newDate.getFullYear();
+    const month = newDate.getMonth() + 1;
+    const date = newDate.getDate();
+    const dayOfAWeek = weekday[newDate.getDay()];
+    return `${year}.${month.toString().padStart(2, "0")}.${date
+      .toString()
+      .padStart(2, "0")}.${dayOfAWeek}`;
   };
 
   useEffect(() => {
-    dispatch(setDate(getDate(count)));
-    return;
+    dispatch(setDate(getDate(count).slice(0, -2)));
   }, [count]);
 
   const clickPrev = () => {
@@ -45,8 +46,7 @@ const Head = () => {
         <button type="button" onClick={clickPrev}>
           <MdArrowLeft />
         </button>
-        <StyledSpan day={false}>{getDate(count)}</StyledSpan>
-        <StyledSpan day>{getDay(count)}</StyledSpan>
+        <StyledSpan>{getDate(count)}</StyledSpan>
         <button type="button" onClick={clickNext}>
           <MdArrowRight />
         </button>
