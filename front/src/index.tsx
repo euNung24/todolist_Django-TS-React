@@ -1,5 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { StrictMode } from "react";
 import Todolist from "./components/Todolist";
+import { createRoot } from "react-dom/client";
 
-ReactDOM.render(<Todolist />, document.querySelector("#root"));
+const root = createRoot(document.getElementById("root")!);
+root.render(
+  <StrictMode>
+    <Todolist />
+  </StrictMode>,
+);
+
