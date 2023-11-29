@@ -17,7 +17,7 @@ export const todoEffect: Middleware<{}, TodoState> =
     ) {
       try {
         const state = store.getState();
-        setTodoThunk(store.dispatch, () => initState, state.date.date);
+        setTodoThunk(store.dispatch, () => initState, state.date.date.split(".").join("-"));
       } catch (error) {
         store.dispatch(showError("오류발생"));
       }
