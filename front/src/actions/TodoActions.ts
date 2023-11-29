@@ -48,8 +48,6 @@ export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
     params: { date: date },
   }).then(({ data }) => {
     dispatch(setTodo(data));
-    console.log(Array.isArray(data));
-    console.log("data: ", data);
   });
 };
 
@@ -68,7 +66,6 @@ export const createTodoThunk: ThunkAction<
   Omit<TodoType, "id">,
   TodoAction
 > = (dispatch, _, todolist) => {
-  console.log(todolist);
   Api.post(`/todolist/`, todolist).then(({ data }) =>
     dispatch(createTodo(data))
   );
