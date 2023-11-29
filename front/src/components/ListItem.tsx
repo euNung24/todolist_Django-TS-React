@@ -9,23 +9,33 @@ import { TodoType } from "../types/apiTypes";
 
 const ListItem = ({ isFinished, todo, id }: Omit<TodoType, "date">) => {
   const DeleteRef = useRef<boolean>(false);
+  const isMouseOver = useRef<boolean>(false);
   const [check, setCheck] = useState<boolean>(isFinished);
   const { date } = useSelector((state: TodoState) => state.date);
   const dispatch = useDispatch();
 
   const handleMouseEnter = () => {
     DeleteRef.current = true;
-    setCheck(!isFinished);
+    if(!(isMouseOver.current)) {
+      setCheck((prev) => !prev);
+      isMouseOver.current = true;
+    }
   };
 
   const handleMouseLeave = () => {
     DeleteRef.current = false;
-    setCheck(isFinished);
+    if (isMouseOver.current) {
+      setCheck((prev) => !prev);
+      isMouseOver.current = false;
+    }
   };
 
   const handleClick = () => {
-    updateTodoThunk(dispatch, () => initState, { id, isFinished });
-    setCheck((prev) => !prev);
+    updateTodoThunk(dispatch, () => initState, { id, isFinished: check })
+      .then(data => {
+        setCheck((prev) => data.isFinished);
+        isMouseOver.current = false;
+      });
   };
 
   return (

@@ -4,7 +4,6 @@ import { TodoState } from "../components/Todolist";
 import { TodoAction } from "../types/actionTypes";
 import { CREATE_TODO, DELETE_TODO, ERROR, SET_TODO, UPDATE_TODO } from "./constant";
 import { TodoType } from "../types/apiTypes";
-import { getLocalTodo, setLocalTodo } from "../../utils";
 
 export const setTodo = (todolist: TodoType[]) => ({
   type: SET_TODO,
@@ -37,7 +36,7 @@ export const showError = (errMsg: string) => ({
 });
 
 const Api = axios.create({
-  baseURL: "https://pandamon24.pythonanywhere.com"
+  baseURL: process.env.NODE_ENV === "development" ? "http://localhost:8081" : "https://pandamon24.pythonanywhere.com"
 });
 
 export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
@@ -73,12 +72,15 @@ export const createTodoThunk: ThunkAction<
 };
 
 export const updateTodoThunk: ThunkAction<
-  void,
+  Promise<TodoType>,
   TodoState,
-  { id: number; isFinished: boolean;},
+  { id: number; isFinished: boolean; },
   TodoAction
 > = (dispatch, _, { id, isFinished }) => {
-  Api.patch(`/todolist/${id}/`, {
-    isFinished: !isFinished,
-  }).then(({ data }) => dispatch(updateTodo(data)));
+  return Api.patch(`/todolist/${id}/`, {
+    isFinished
+  }).then(({ data }) => {
+    dispatch(updateTodo(data));
+    return data;
+  });
 };
