@@ -8,7 +8,7 @@ const todolist = (state = {}, action: TodoAction) => {
       const todolist = action.payload.reduce(
         (final, todolist) => ({
           ...final,
-          [todolist.id!]: todolist,
+          [todolist.id]: todolist,
         }),
         {}
       );

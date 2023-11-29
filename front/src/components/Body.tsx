@@ -19,7 +19,7 @@ const Body = () => {
             key={list.id}
             isFinished={list.isFinished}
             todo={list.todo}
-            id={list.id!}
+            id={list.id}
           />
         ))}
       </ul>

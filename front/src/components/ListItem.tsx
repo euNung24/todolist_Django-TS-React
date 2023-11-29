@@ -24,7 +24,7 @@ const ListItem = ({ isFinished, todo, id }: Omit<TodoType, "date">) => {
   };
 
   const handleClick = () => {
-    updateTodoThunk(dispatch, () => initState, { id: id!, isFinished });
+    updateTodoThunk(dispatch, () => initState, { id, isFinished });
     setCheck((prev) => !prev);
   };
 
@@ -34,7 +34,7 @@ const ListItem = ({ isFinished, todo, id }: Omit<TodoType, "date">) => {
         {check ? <BiCheckboxChecked /> : <BiCheckbox />}
       </button>
       {todo}
-      {DeleteRef.current ? <DeleteButton id={id!} /> : null}
+      {DeleteRef.current ? <DeleteButton id={id} /> : null}
     </StyledLi>
   );
 };
