@@ -16,7 +16,7 @@ const Input = () => {
     const todo = inputRef.current!.value;
     createTodoThunk(dispatch, () => initState, {
       todo,
-      date: date.split(".").join("-"),
+      date: date + '.',
       isFinished: false,
     });
     inputRef.current!.value = "";
