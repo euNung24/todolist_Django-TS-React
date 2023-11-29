@@ -25,7 +25,7 @@ const DeleteButton = ({ id }: DeleteBtnProps) => {
   };
 
   return (
-    <StyledDeleteButton type="button" onClick={handleClick} ref={buttonRef}>
+    <StyledDeleteButton className="btn-delete" type="button" onClick={handleClick} ref={buttonRef}>
       <FaTrashAlt style={{ fontSize: "20px" }} />
     </StyledDeleteButton>
   );

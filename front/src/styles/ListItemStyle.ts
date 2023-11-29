@@ -6,9 +6,22 @@ export const StyledLi = styled.li`
   align-items: center;
   font-family: "Gamja Flower", cursive;
   font-size: 20px;
-  &:hover,
-  &:hover > * {
-    color: #5e5955;
+  cursor: default;
+  & > div {
+    flex: 1;
+    display: flex;
+    align-items: center;
   }
-  cursor: pointer;
+  & .btn-finish:hover {
+    color: #5e5955;
+    cursor: pointer;
+  }
+  .btn-delete {
+    display: none;
+  }
+  &:hover .btn-delete {
+    display: block;
+    color: #5e5955;
+    cursor: pointer;
+  }
 `;
