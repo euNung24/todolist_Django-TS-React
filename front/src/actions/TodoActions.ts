@@ -65,7 +65,7 @@ export const deleteTodoThunk: ThunkAction<
 export const createTodoThunk: ThunkAction<
   void,
   TodoState,
-  TodoType,
+  Omit<TodoType, "id">,
   TodoAction
 > = (dispatch, _, todolist) => {
   console.log(todolist);
