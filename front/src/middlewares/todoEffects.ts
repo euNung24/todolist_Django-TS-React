@@ -1,4 +1,3 @@
-import moment from "moment";
 import { Middleware } from "redux";
 import {
   setTodoThunk,
