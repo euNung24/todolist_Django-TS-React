@@ -36,7 +36,7 @@ export const showError = (errMsg: string) => ({
 });
 
 const Api = axios.create({
-  baseURL: process.env.NODE_ENV === "development" ? "http://localhost:8081" : "https://pandamon24.pythonanywhere.com"
+  baseURL: process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://pandamon24.pythonanywhere.com"
 });
 
 export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (

@@ -1,4 +1,5 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -21,19 +22,25 @@ module.exports = {
         ],
         exclude: /node_modules/,
       },
+      {
+        test: /\.html$/,
+        loader: "html-loader",
+        options: { minimize: true },
+      },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./index.html",
+      filename: "index.html",
+    }),
+  ],
   output: {
     path: path.resolve(__dirname + "/dist"),
-    publicPath: "/dist",
     filename: "bundle.js",
   },
   devServer: {
-    devMiddleware: { publicPath: "/dist" },
-    static: { directory: path.join(__dirname) },
+    static: { directory: path.join(__dirname, 'dist') },
     hot: true,
-    proxy: {
-      "/todolist": "http://localhost:8000",
-    },
   },
 };
