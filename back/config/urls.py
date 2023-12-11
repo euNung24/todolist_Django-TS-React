@@ -19,10 +19,16 @@ from django.conf.urls import include
 
 from django.conf import settings
 from django.conf.urls.static import static
+from social.views import GoogleLoginView, UserRedirectView, google_login
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('todolist.urls'))
+    path('accounts/', include('allauth.urls')),
+    path("google/login/", GoogleLoginView.as_view(), name="google_login"),
+    path('google/login/callback/', google_login),
+    path("~redirect/", view=UserRedirectView.as_view(), name="redirect"),
+    path('api/', include('social.urls')),
+    path('', include('todolist.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
