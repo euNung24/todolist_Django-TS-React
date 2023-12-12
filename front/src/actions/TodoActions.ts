@@ -36,7 +36,10 @@ export const showError = (errMsg: string) => ({
 });
 
 const Api = axios.create({
-  baseURL: process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://pandamon24.pythonanywhere.com"
+  baseURL: process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://pandamon24.pythonanywhere.com",
+  headers: {
+    Authorization: localStorage.getItem('token')
+  }
 });
 
 export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
@@ -46,9 +49,6 @@ export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
 ) => {
   Api.get("/todolist", {
     params: { date: date },
-    headers: {
-      Authorization: localStorage.getItem('token')
-    }
   }).then(({ data }) => {
     dispatch(setTodo(data));
   });
@@ -60,11 +60,7 @@ export const deleteTodoThunk: ThunkAction<
   { id: number; todo: TodoType },
   TodoAction
 > = (dispatch, _, { id, todo }) => {
-  Api.delete(`/todolist/${id}`, {
-    headers: {
-      Authorization: localStorage.getItem('token')
-    }
-  }).then((_) => dispatch(deleteTodo(id, todo)));
+  Api.delete(`/todolist/${id}`).then((_) => dispatch(deleteTodo(id, todo)));
 };
 
 export const createTodoThunk: ThunkAction<
@@ -73,11 +69,7 @@ export const createTodoThunk: ThunkAction<
   Omit<TodoType, "id">,
   TodoAction
 > = (dispatch, _, todolist) => {
-  Api.post(`/todolist/`, todolist, {
-    headers: {
-      Authorization: localStorage.getItem('token')
-    }
-  }).then(({ data }) =>
+  Api.post(`/todolist/`, todolist).then(({ data }) =>
     dispatch(createTodo(data))
   );
 };
