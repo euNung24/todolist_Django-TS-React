@@ -3,6 +3,14 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import RedirectView
+import requests
+from django.http import JsonResponse
+import json
+from django.contrib.auth.models import User
+import jwt
+from cmath import exp
+from django.utils.timezone import now
+from config.settings import JWT_AUTH
 
 class GoogleLoginView(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
@@ -18,63 +26,38 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
         return "redirect-url"
 
 def google_login(request):
-  if request.method == "GET":
-    try:
-      code = request.GET.get('code')
-      state = request.GET.get('state')
-      print(code)
-      client_id = NAVER_CLIENT_ID
-      client_secret = NAVER_CLIENT_SECRET
-      redirectURI = NAVER_REDIRECT_URI
-      # client_id = "aqEwWJTWavuAC54L91M3"
-      # client_secret = "FCzmwMpf30"
-      # redirectURI = "http://127.0.0.1:3000/accounts/naver/login/callback/"
-      naver_token_api = 'https://nid.naver.com/oauth2.0/token'
-      data = {
-        'grant_type': "authorization_code",
-        "client_id": client_id,
-        "client_secret": client_secret,
-        "code": code,
-        "redirect_uri": redirectURI,
-        "state": state
-      }
-      res  = requests.post(naver_token_api, data=data)
-      data = res.json()
-      token = data['access_token']
-      headers = {
-        'Authorization': "Bearer " + token
-      }
-      naver_info_url = "https://openapi.naver.com/v1/nid/me"
-      info_data = requests.get(naver_info_url, headers = headers)
-      naver_account = info_data.json()['response']
-      print(token)
-      if not User.objects.filter(email=naver_account["email"]).exists():
-        user = User.objects.create(
-          username = naver_account['id'],
-          email = naver_account["email"],
-        )
-      user = User.objects.get(email=naver_account['email'])
-      print(user.id)
-      access_token = jwt.encode({'user_id': user.id,  'exp':now() + JWT_AUTH["JWT_EXPIRATION_DELTA"]}, JWT_AUTH['JWT_SECRET_KEY'], algorithm=JWT_AUTH["JWT_ALGORITHM"]).decode('utf-8')
-      print(access_token)
-      set_token_url = 'http://localhost:8000/api/rest-auth/naver/'
-      token_data = requests.post(set_token_url, data={
-        "access_token": token,
-      })
-      inner_token = token_data.json()['access_token']
-      refresh_token = token_data.json()['refresh_token']
+  if request.method == "POST":
+    GOOGLE_ID_TOKEN_INFO_URL = 'https://www.googleapis.com/oauth2/v3/tokeninfo'
+    GOOGLE_OAUTH2_CLIENT_ID = '246756656527-15h0r7veg0q4fcaqmbnmhdlo2s8j9ia3.apps.googleusercontent.com'
+    id_token = json.loads(request.body)['id_token']
+    response = requests.get(
+      GOOGLE_ID_TOKEN_INFO_URL,
+      params={'id_token': id_token}
+    )
 
-      print(token_data.json())
-      return JsonResponse({'user': access_token, 'access_token': inner_token, 'refresh_token': refresh_token, 'is_superuser': user.is_superuser, 'id': user.id}, status=201, safe=False)
+    if not response.ok:
+      raise ValidationError('id_token is invalid.')
 
-    except KeyError:
-      return JsonResponse({'message': 'KEY_ERROR'}, status=400, safe=False)
+    data = response.json()
+    audience = data['aud']
 
-    except JSONDecodeError:
-      return JsonResponse({'message': 'JSON_DECODE_ERROR'}, status=400, safe=False)
+    if audience != GOOGLE_OAUTH2_CLIENT_ID:
+      raise ValidationError('Invalid audience.')
 
-    except jwt.DecodeError:
-      return JsonResponse({'message': 'JWT_DECODE_ERROR'}, status=400, safe=False)
+    if not User.objects.filter(email=data['email']).exists():
+      user = User.objects.create(
+        email = data["email"],
+        username = data["email"],
+        password = "1234qwer"
+      )
+    user = User.objects.get(email=data['email'])
+    access_token = jwt.encode({'user_id': user.id,  'exp':now() + JWT_AUTH["JWT_EXPIRATION_DELTA"]}, JWT_AUTH['JWT_SECRET_KEY'], algorithm=JWT_AUTH["JWT_ALGORITHM"]).decode('utf-8')
+    set_token_url = 'http://localhost:8000/api/token/'
+    token_data = requests.post(set_token_url, data={
+      "username": user.username,
+      "password": "1234qwer"
+    })
+    access_token = token_data.json()['access']
+    refresh_token = token_data.json()['refresh']
 
-    except ConnectionError:
-      return JsonResponse({'message': 'CONNECTION_ERROR'}, status=400, safe=False)
+    return JsonResponse({ 'user' : user.id, 'access_token': access_token, 'refresh_token': refresh_token }, status=201, safe=False)
