@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 import jwt
 from cmath import exp
 from django.utils.timezone import now
-from config.settings import JWT_AUTH
+from config.settings import SIMPLE_JWT
 
 class GoogleLoginView(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
@@ -48,10 +48,12 @@ def google_login(request):
       user = User.objects.create(
         email = data["email"],
         username = data["email"],
-        password = "1234qwer"
       )
+      user.set_password("1234qwer")
+      user.save()
+
     user = User.objects.get(email=data['email'])
-    access_token = jwt.encode({'user_id': user.id,  'exp':now() + JWT_AUTH["JWT_EXPIRATION_DELTA"]}, JWT_AUTH['JWT_SECRET_KEY'], algorithm=JWT_AUTH["JWT_ALGORITHM"]).decode('utf-8')
+    access_token = jwt.encode({'user_id': user.id,  'exp':now() + SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"]}, SIMPLE_JWT['SIGNING_KEY'], algorithm=SIMPLE_JWT["ALGORITHM"]).decode('utf-8')
     set_token_url = 'http://localhost:8000/api/token/'
     token_data = requests.post(set_token_url, data={
       "username": user.username,

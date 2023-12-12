@@ -12,7 +12,7 @@ class  TodolistSerializer(serializers.ModelSerializer):
 class TodoListViewSet(viewsets.ModelViewSet):
   queryset = Todolist.objects.all()
   serializer_class = TodolistSerializer
-  authentication_classes = [authentication.TokenAuthentication]
+#   authentication_classes = [authentication.TokenAuthentication]
 
   def get_queryset(self):
     user_id = login_check(self.request.headers['Authorization'])
