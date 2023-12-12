@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { setDate } from "../actions/DateActions";
@@ -15,6 +15,7 @@ const Head = () => {
   const today = new Date();
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
+  const isLoaded = useRef(false);
 
   const getDate = (count: number) => {
     const newDate = new Date(today.getTime() + 1000 * 24 * 60 * 60 * count);
@@ -28,7 +29,11 @@ const Head = () => {
   };
 
   useEffect(() => {
-    dispatch(setDate(getDate(count).slice(0, -2)));
+    if(!isLoaded.current) {
+      isLoaded.current = true;
+    } else {
+      dispatch(setDate(getDate(count).slice(0, -2)));
+    }
   }, [count]);
 
   const clickPrev = () => {

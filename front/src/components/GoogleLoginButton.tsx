@@ -11,7 +11,7 @@ const GoogleLoginButton = () => {
           onSuccess={(res) => {
             console.log(res.clientId);
             console.log(res.credential);
-            fetch('http://localhost:8000/google/login/', {
+            fetch('http://localhost:8000/google/login/callback/', {
               method: "POST",
               headers: {
                 'Content-Type': 'application/json',
@@ -21,7 +21,9 @@ const GoogleLoginButton = () => {
                 id_token: res.credential
               })
             }).then(res => res.json())
-              .then(res => console.log(res));
+              .then(res => {
+                localStorage.setItem('token', res.access_token);
+              });
           }}
           onError={() => {
             console.log('err');

@@ -45,7 +45,10 @@ export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
   date
 ) => {
   Api.get("/todolist", {
-    params: { date: date }
+    params: { date: date },
+    headers: {
+      Authorization: localStorage.getItem('token')
+    }
   }).then(({ data }) => {
     dispatch(setTodo(data));
   });
@@ -57,7 +60,11 @@ export const deleteTodoThunk: ThunkAction<
   { id: number; todo: TodoType },
   TodoAction
 > = (dispatch, _, { id, todo }) => {
-  Api.delete(`/todolist/${id}`).then((_) => dispatch(deleteTodo(id, todo)));
+  Api.delete(`/todolist/${id}`, {
+    headers: {
+      Authorization: localStorage.getItem('token')
+    }
+  }).then((_) => dispatch(deleteTodo(id, todo)));
 };
 
 export const createTodoThunk: ThunkAction<
@@ -66,7 +73,11 @@ export const createTodoThunk: ThunkAction<
   Omit<TodoType, "id">,
   TodoAction
 > = (dispatch, _, todolist) => {
-  Api.post(`/todolist/`, todolist).then(({ data }) =>
+  Api.post(`/todolist/`, todolist, {
+    headers: {
+      Authorization: localStorage.getItem('token')
+    }
+  }).then(({ data }) =>
     dispatch(createTodo(data))
   );
 };
