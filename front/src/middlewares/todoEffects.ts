@@ -7,6 +7,7 @@ import {
   SET_DATE,
   UPDATE_TODO,
 } from "../actions/constant";
+import { getToken } from "../../utils";
 
 export const todoEffect: Middleware<{}, TodoState> =
   (store) => (nextRunner) => (action) => {
@@ -18,7 +19,7 @@ export const todoEffect: Middleware<{}, TodoState> =
     ) {
       try {
         const state = store.getState();
-        setTodoThunk(store.dispatch, () => initState, state.date.date.split(".").join("-"));
+        getToken() && setTodoThunk(store.dispatch, () => initState, state.date.date.split(".").join("-"));
       } catch (error) {
         store.dispatch(showError("오류발생"));
       }

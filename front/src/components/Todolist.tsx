@@ -48,7 +48,6 @@ const Todolist = () => {
       >
         <GlobalStyle />
         <WrappedStyle>
-          <GoogleLoginButton />
           <Head />
           <Body />
         </WrappedStyle>

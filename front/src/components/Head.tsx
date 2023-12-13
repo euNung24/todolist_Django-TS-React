@@ -9,6 +9,8 @@ import {
   StyledSpan,
 } from "../styles/HeadStyle";
 import { MdArrowLeft, MdArrowRight } from "react-icons/md";
+import GoogleLoginButton from "./GoogleLoginButton";
+import { getToken } from "../../utils";
 
 const weekday = ["일", "월", "화", "수", "목", "금", "토"];
 const Head = () => {
@@ -55,6 +57,10 @@ const Head = () => {
         <button type="button" onClick={clickNext}>
           <MdArrowRight />
         </button>
+        <div style={{marginLeft: 'auto'}}>
+          {getToken() && <GoogleLoginButton />}
+        </div>
+
       </StyledButtonWrapper>
     </StyledHead>
   );
