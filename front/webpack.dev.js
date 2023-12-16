@@ -37,10 +37,10 @@ module.exports = {
   ],
   output: {
     path: path.resolve(__dirname + "/dist"),
-    filename: "bundle.[hash].js",
+    filename: "bundle.[chunkhash].js",
   },
   devServer: {
-    static: { directory: path.join(__dirname, 'dist') },
+    static: { directory: path.join(__dirname, "dist") },
     hot: true,
   },
 };
