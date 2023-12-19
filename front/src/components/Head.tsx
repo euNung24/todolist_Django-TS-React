@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { setDate } from "../actions/DateActions";
@@ -17,6 +17,7 @@ const weekday = ["일", "월", "화", "수", "목", "금", "토"];
 const Head = () => {
   const today = new Date();
   const [count, setCount] = useState(0);
+  const prevCount = useRef<number | null>(null);
   const dispatch = useDispatch();
 
   const getDate = (count: number) => {
@@ -31,7 +32,12 @@ const Head = () => {
   };
 
   useEffect(() => {
-    dispatch(setDate(getDate(count).slice(0, -2)));
+    if (prevCount.current !== count) {
+      dispatch(setDate(getDate(count).slice(0, -2)));
+    }
+    return () => {
+      prevCount.current = count;
+    };
   }, [count]);
 
   const clickPrev = () => {

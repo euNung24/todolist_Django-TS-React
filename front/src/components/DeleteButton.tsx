@@ -17,7 +17,6 @@ const DeleteButton = ({ id }: DeleteBtnProps) => {
 
   const dispatch = useDispatch();
   const { todolist } = useSelector((state: TodoState) => state.todolist);
-  const { date } = useSelector((state: TodoState) => state.date);
 
   const handleClick = () => {
     const todo: TodoType = todolist[idRef.current];

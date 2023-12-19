@@ -37,7 +37,7 @@ export const updateTodo = (id: number) => ({
   payload: id,
 });
 
-export const showError = (errMsg: string) => ({
+export const showError = (errMsg = "서버 요청 중 요류가 발생했습니다.") => ({
   type: ERROR,
   payload: { errMsg },
 });
@@ -56,9 +56,13 @@ export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
 ) => {
   Api.get("/todolist", {
     params: { date: date },
-  }).then(({ data }) => {
-    dispatch(setTodo(data));
-  });
+  })
+    .then(({ data }) => {
+      dispatch(setTodo(data));
+    })
+    .catch((e) => {
+      dispatch(showError());
+    });
 };
 
 export const deleteTodoThunk: ThunkAction<
@@ -67,7 +71,9 @@ export const deleteTodoThunk: ThunkAction<
   { id: number; todo: TodoType },
   TodoAction
 > = (dispatch, _, { id, todo }) => {
-  Api.delete(`/todolist/${id}`).then((_) => dispatch(deleteTodo(id, todo)));
+  Api.delete(`/todolist/${id}`)
+    .then((_) => dispatch(deleteTodo(id, todo)))
+    .catch((e) => dispatch(showError()));
 };
 
 export const createTodoThunk: ThunkAction<
@@ -76,9 +82,9 @@ export const createTodoThunk: ThunkAction<
   Omit<TodoType, "id">,
   TodoAction
 > = (dispatch, _, todolist) => {
-  Api.post(`/todolist/`, todolist).then(({ data }) =>
-    dispatch(createTodo(data)),
-  );
+  Api.post(`/todolist/`, todolist)
+    .then(({ data }) => dispatch(createTodo(data)))
+    .catch((e) => dispatch(showError()));
 };
 
 export const updateTodoThunk: ThunkAction<
@@ -89,8 +95,13 @@ export const updateTodoThunk: ThunkAction<
 > = (dispatch, _, { id, isFinished }) => {
   return Api.patch(`/todolist/${id}/`, {
     isFinished,
-  }).then(({ data }) => {
-    dispatch(updateTodo(data));
-    return data;
-  });
+  })
+    .then(({ data }) => {
+      dispatch(updateTodo(data));
+      return data;
+    })
+    .catch((e) => {
+      dispatch(showError());
+      return;
+    });
 };

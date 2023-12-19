@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import Input from "./Input";
 import { TodoState } from "./Todolist";
@@ -8,14 +8,21 @@ import GoogleLoginButton from "./GoogleLoginButton";
 import { StyledBody, StyledH3 } from "../styles/BodyStyle";
 
 const Body = () => {
-  const { ids, todolist, errMsg } = useSelector((state: TodoState) => state.todolist);
+  const { ids, todolist, errMsg } = useSelector(
+    (state: TodoState) => state.todolist,
+  );
+  const isError = useRef(!!errMsg);
   const lists = ids.map((id) => todolist[id]);
+
+  useEffect(() => {
+    errMsg && alert(errMsg);
+  });
   return (
     <StyledBody>
       <StyledH3>To do List 목록</StyledH3>
-      {getToken()
-        ? <>
-           <ul>
+      {getToken() ? (
+        <>
+          <ul>
             {lists.map((list) => (
               <ListItem
                 key={list.id}
@@ -24,12 +31,12 @@ const Body = () => {
                 id={list.id}
               />
             ))}
-            </ul>
-              {errMsg && <p>{errMsg}</p>}
-              <Input />
-          </>
-        : <GoogleLoginButton />
-      }
+          </ul>
+          <Input />
+        </>
+      ) : (
+        <GoogleLoginButton />
+      )}
     </StyledBody>
   );
 };

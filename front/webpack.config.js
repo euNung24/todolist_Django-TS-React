@@ -55,7 +55,7 @@ module.exports = function (env) {
         filename: "index.html",
         inject: "body",
       }),
-      isDevMode && new BundleAnalyzerPlugin(),
+      // isDevMode && new BundleAnalyzerPlugin(),
       new webpack.DefinePlugin(envKeys),
     ].filter(Boolean),
     output: {
@@ -64,10 +64,10 @@ module.exports = function (env) {
       publicPath: "/",
       clean: true,
     },
-    optimization: {
-      minimize: true,
-      runtimeChunk: "single",
-    },
+    // optimization: {
+    //   minimize: true,
+    //   runtimeChunk: "single",
+    // },
     ...(isDevMode && {
       devServer: {
         static: { directory: path.join(__dirname, "dist") },

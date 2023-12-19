@@ -1,12 +1,7 @@
 import { Middleware } from "redux";
 import { setTodoThunk, showError } from "../actions/TodoActions";
 import { initState, TodoState } from "../components/Todolist";
-import {
-  CREATE_TODO,
-  DELETE_TODO,
-  SET_DATE,
-  UPDATE_TODO,
-} from "../actions/constant";
+import { CREATE_TODO, DELETE_TODO, SET_DATE } from "../actions/constant";
 import { getToken } from "../../utils";
 
 export const todoEffect: Middleware<{}, TodoState> =
@@ -19,7 +14,12 @@ export const todoEffect: Middleware<{}, TodoState> =
     ) {
       try {
         const state = store.getState();
-        getToken() && setTodoThunk(store.dispatch, () => initState, state.date.date.split(".").join("-"));
+        getToken() &&
+          setTodoThunk(
+            store.dispatch,
+            () => initState,
+            state.date.date.split(".").join("-"),
+          );
       } catch (error) {
         store.dispatch(showError("오류발생"));
       }
