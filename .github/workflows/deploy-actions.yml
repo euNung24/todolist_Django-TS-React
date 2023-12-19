@@ -13,9 +13,10 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    #    defaults:
-    #      run:
-    #        working-directory: ./front
+    environment: production
+    defaults:
+      run:
+        working-directory: ./front
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
