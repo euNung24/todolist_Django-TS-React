@@ -53,9 +53,6 @@ module.exports = function (env) {
       }),
       // isDevMode && new BundleAnalyzerPlugin(),
       new webpack.DefinePlugin(envKeys),
-      new webpack.ProvidePlugin({
-        process: "process/browser.js",
-      }),
     ].filter(Boolean),
     output: {
       path: path.resolve(__dirname + "/dist"),
