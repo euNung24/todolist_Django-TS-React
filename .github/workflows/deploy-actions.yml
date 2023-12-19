@@ -38,13 +38,13 @@ jobs:
           node-version: '20'
       - name: Generate Environment Variables File for Production
         run: |
-          echo "API_URL=$API_URL" >> .env
           echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> .env
+          echo "API_URL=$API_URL" >> .env
       - name: Generate Environment Variables File for Production in Firebase
         run: |
           mkdir functions
-          echo "API_URL=$API_URL" >> ./functions/.env
           echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> ./functions/.env
+          echo "API_URL=$API_URL" >> ./functions/.env
       - run: npm ci && npm run build
       - name: firebase deploy
         uses: FirebaseExtended/action-hosting-deploy@v0
