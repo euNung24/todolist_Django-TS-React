@@ -1,5 +1,11 @@
 import { TodoAction } from "../types/actionTypes";
-import { CREATE_TODO, DELETE_TODO, ERROR, SET_TODO, UPDATE_TODO } from "../actions/constant";
+import {
+  CREATE_TODO,
+  DELETE_TODO,
+  ERROR,
+  SET_TODO,
+  UPDATE_TODO,
+} from "../actions/constant";
 
 const todolist = (state = {}, action: TodoAction) => {
   switch (action.type) {
@@ -10,28 +16,32 @@ const todolist = (state = {}, action: TodoAction) => {
           ...final,
           [todolist.id]: todolist,
         }),
-        {}
+        {},
       );
-      return { ...state, ids, todolist };
+      return { ...state, ids, todolist, errMsg: "" };
     case DELETE_TODO:
       const deleteTodo = action.payload.deleteTodo;
       return {
         ...state,
         deleteTodo,
+        errMsg: "",
       };
     case CREATE_TODO: {
       return {
         ...state,
+        errMsg: "",
       };
     }
     case UPDATE_TODO: {
       return {
         ...state,
+        errMsg: "",
       };
     }
     case ERROR: {
       return {
         ...state,
+        errMsg: action.payload.errMsg,
       };
     }
     default:

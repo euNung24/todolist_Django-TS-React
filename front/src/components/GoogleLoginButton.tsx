@@ -28,6 +28,9 @@ const GoogleLoginButton = () => {
               .then((res) => {
                 localStorage.setItem("token", res.access_token);
                 location.reload();
+              })
+              .catch((e) => {
+                alert("서버 요청 중 오류가 발생했습니다.");
               });
           }}
           onError={() => {

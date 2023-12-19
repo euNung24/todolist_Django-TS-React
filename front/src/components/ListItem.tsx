@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { updateTodoThunk } from "../actions/TodoActions";
-import { initState, TodoState } from "./Todolist";
-import { useDispatch, useSelector } from "react-redux";
+import { initState } from "./Todolist";
+import { useDispatch } from "react-redux";
 import DeleteButton from "./DeleteButton";
 import { StyledLi } from "../styles/ListItemStyle";
 import { BiCheckbox } from "@react-icons/all-files/bi/BiCheckbox";
@@ -11,7 +11,6 @@ import { TodoType } from "../types/apiTypes";
 const ListItem = ({ isFinished, todo, id }: Omit<TodoType, "date">) => {
   const isMouseOver = useRef<boolean>(false);
   const [check, setCheck] = useState<boolean>(isFinished);
-  const { date } = useSelector((state: TodoState) => state.date);
   const dispatch = useDispatch();
 
   const handleMouseEnter = () => {
@@ -29,6 +28,7 @@ const ListItem = ({ isFinished, todo, id }: Omit<TodoType, "date">) => {
   const handleClick = () => {
     updateTodoThunk(dispatch, () => initState, { id, isFinished: check }).then(
       (data) => {
+        if (!data) return;
         setCheck((prev) => data.isFinished);
         isMouseOver.current = false;
       },
