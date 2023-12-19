@@ -7,8 +7,6 @@ const dotenv = require("dotenv");
 const fs = require("fs");
 
 module.exports = function (env) {
-  const isDevMode = env.mode === "development";
-
   const currentPath = path.join(__dirname);
   const basePath = currentPath + "/.env";
   const envPath = basePath + "." + env.mode;
@@ -21,6 +19,8 @@ module.exports = function (env) {
     prev[`process.env.${next}`] = JSON.stringify(fileEnv[next]);
     return prev;
   }, {});
+
+  const isDevMode = envKeys["NODE_ENV"] === "development";
 
   return {
     mode: isDevMode ? "development" : "production",
