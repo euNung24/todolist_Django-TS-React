@@ -4,7 +4,8 @@ import { initState, TodoState } from "./Todolist";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteButton from "./DeleteButton";
 import { StyledLi } from "../styles/ListItemStyle";
-import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
+import { BiCheckbox } from "@react-icons/all-files/bi/BiCheckbox";
+import { BiCheckboxChecked } from "@react-icons/all-files/bi/BiCheckboxChecked";
 import { TodoType } from "../types/apiTypes";
 
 const ListItem = ({ isFinished, todo, id }: Omit<TodoType, "date">) => {
@@ -26,17 +27,30 @@ const ListItem = ({ isFinished, todo, id }: Omit<TodoType, "date">) => {
   };
 
   const handleClick = () => {
-    updateTodoThunk(dispatch, () => initState, { id, isFinished: check })
-      .then(data => {
+    updateTodoThunk(dispatch, () => initState, { id, isFinished: check }).then(
+      (data) => {
         setCheck((prev) => data.isFinished);
         isMouseOver.current = false;
-      });
+      },
+    );
   };
 
   return (
     <StyledLi>
-      <button type="button" className="btn-finish" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick}>
-        {check ? <BiCheckboxChecked /> : <BiCheckbox />}
+      <button
+        type="button"
+        className="btn-finish"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
+      >
+        {check ? (
+          <BiCheckboxChecked
+            style={{ fontSize: "30px", verticalAlign: "middle" }}
+          />
+        ) : (
+          <BiCheckbox style={{ fontSize: "30px", verticalAlign: "middle" }} />
+        )}
       </button>
       {todo}
       <DeleteButton id={id} />

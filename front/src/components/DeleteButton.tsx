@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteTodoThunk } from "../actions/TodoActions";
 import { initState, TodoState } from "./Todolist";
 
-import { FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt } from "@react-icons/all-files/fa/FaTrashAlt";
 import { StyledDeleteButton } from "../styles/ButtonStyle";
 import { TodoType } from "../types/apiTypes";
 
@@ -25,7 +25,12 @@ const DeleteButton = ({ id }: DeleteBtnProps) => {
   };
 
   return (
-    <StyledDeleteButton className="btn-delete" type="button" onClick={handleClick} ref={buttonRef}>
+    <StyledDeleteButton
+      className="btn-delete"
+      type="button"
+      onClick={handleClick}
+      ref={buttonRef}
+    >
       <FaTrashAlt style={{ fontSize: "20px" }} />
     </StyledDeleteButton>
   );

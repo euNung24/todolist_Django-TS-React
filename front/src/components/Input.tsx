@@ -2,9 +2,9 @@ import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createTodoThunk } from "../actions/TodoActions";
 import { initState, TodoState } from "./Todolist";
-import { BiCheckbox } from "react-icons/bi";
-import { BsPatchPlusFill } from "react-icons/bs";
-import { StyledForm, StyledInput, StyledButton } from "../styles/InputStyle";
+import { BiCheckbox } from "@react-icons/all-files/bi/BiCheckbox";
+import { BsPlusSquareFill } from "@react-icons/all-files/bs/BsPlusSquareFill";
+import { StyledButton, StyledForm, StyledInput } from "../styles/InputStyle";
 
 const Input = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -16,7 +16,7 @@ const Input = () => {
     const todo = inputRef.current!.value;
     createTodoThunk(dispatch, () => initState, {
       todo,
-      date: date + '.',
+      date: date + ".",
       isFinished: false,
     });
     inputRef.current!.value = "";
@@ -24,7 +24,7 @@ const Input = () => {
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <BiCheckbox />
+      <BiCheckbox style={{ fontSize: "30px", verticalAlign: "middle" }} />
       <label htmlFor="todo">할 일 입력</label>
       <StyledInput
         type="text"
@@ -33,7 +33,9 @@ const Input = () => {
         placeholder="할 일을 입력하세요."
       />
       <StyledButton type="submit">
-        <BsPatchPlusFill style={{ fontSize: "20px" }} />
+        <BsPlusSquareFill
+          style={{ fontSize: "20px", verticalAlign: "middle" }}
+        />
       </StyledButton>
     </StyledForm>
   );

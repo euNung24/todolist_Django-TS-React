@@ -8,7 +8,8 @@ import {
   StyledHead,
   StyledSpan,
 } from "../styles/HeadStyle";
-import { MdArrowLeft, MdArrowRight } from "react-icons/md";
+import { MdKeyboardArrowLeft } from "@react-icons/all-files/md/MdKeyboardArrowLeft";
+import { MdKeyboardArrowRight } from "@react-icons/all-files/md/MdKeyboardArrowRight";
 import GoogleLoginButton from "./GoogleLoginButton";
 import { getToken } from "../../utils";
 
@@ -46,11 +47,15 @@ const Head = () => {
       <StyledH2>To Do List</StyledH2>
       <StyledButtonWrapper>
         <button type="button" onClick={clickPrev}>
-          <MdArrowLeft />
+          <MdKeyboardArrowLeft
+            style={{ fontSize: "30px", verticalAlign: "middle" }}
+          />
         </button>
         <StyledSpan>{getDate(count)}</StyledSpan>
         <button type="button" onClick={clickNext}>
-          <MdArrowRight />
+          <MdKeyboardArrowRight
+            style={{ fontSize: "30px", verticalAlign: "middle" }}
+          />
         </button>
         <div style={{ marginLeft: "auto" }}>
           {getToken() && <GoogleLoginButton />}
