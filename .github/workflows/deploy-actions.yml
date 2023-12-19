@@ -1,14 +1,11 @@
 name: Deploy Actions
-run-name: Upgrade version & Firebase Deploy
+run-name: Upgrade version & Vercel Deploy
 on:
   push:
     branches:
       - master
     paths-ignore:
       - 'back/**'
-env:
-  API_URL: ${{ secrets.API_URL }}
-  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -36,23 +33,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-      - name: Generate Environment Variables File for Production
-        run: |
-          echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> .env
-          echo "API_URL=$API_URL" >> .env
-      - name: Generate Environment Variables File for Production in Firebase
-        run: |
-          mkdir functions
-          echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> ./functions/.env
-          echo "API_URL=$API_URL" >> ./functions/.env
       - run: npm ci && npm run build
-      - name: Firebase deploy
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          entrypoint: ./front
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_TODOLIST_EUNUNG }}"
-          projectId: todolist-eunung
-          channelId: live
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+
 
 
