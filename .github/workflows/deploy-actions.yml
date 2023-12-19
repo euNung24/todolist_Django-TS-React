@@ -1,4 +1,4 @@
-=name: Deploy Actions
+name: Deploy Actions
 run-name: Upgrade version & Vercel Deploy
 on:
   push:
