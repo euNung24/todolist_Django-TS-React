@@ -3,9 +3,9 @@ run-name: Upgrade version & Firebase Deploy
 on:
   push:
     branches:
-      - master
+      - github/actions
     paths:
-      - front/**
+      - 'front/**'
 jobs:
   deploy:
     runs-on: ubuntu-latest
