@@ -39,7 +39,7 @@ module.exports = function (env) {
         filename: "index.html",
         inject: "body",
       }),
-      new BundleAnalyzerPlugin(),
+      isDevMode && new BundleAnalyzerPlugin(),
     ].filter(Boolean),
     output: {
       path: path.resolve(__dirname + "/dist"),
