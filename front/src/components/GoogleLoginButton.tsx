@@ -2,16 +2,9 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import React from "react";
 
 const GoogleLoginButton = () => {
-  console.log(process?.env?.GOOGLE_CLIENT_ID);
-  console.log(process?.env?.API_URL);
   return (
     <>
-      <GoogleOAuthProvider
-        clientId={
-          process?.env?.GOOGLE_CLIENT_ID ||
-          "246756656527-15h0r7veg0q4fcaqmbnmhdlo2s8j9ia3.apps.googleusercontent.com"
-        }
-      >
+      <GoogleOAuthProvider clientId={process?.env?.GOOGLE_CLIENT_ID!}>
         <GoogleLogin
           onSuccess={(res) => {
             fetch(process.env.API_URL + "/google/login/callback/", {
