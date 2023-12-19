@@ -1,4 +1,4 @@
-name: Deploy Actions
+=name: Deploy Actions
 run-name: Upgrade version & Vercel Deploy
 on:
   push:
@@ -42,6 +42,3 @@ jobs:
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-
-
