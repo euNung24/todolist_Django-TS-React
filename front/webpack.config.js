@@ -1,26 +1,11 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const BundleAnalyzerPlugin =
-  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin =
+//   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const webpack = require("webpack");
-const dotenv = require("dotenv");
-const fs = require("fs");
 
 module.exports = function (env) {
-  const currentPath = path.join(__dirname);
-  const basePath = currentPath + "/.env";
-  const envPath = basePath + "." + env.mode;
-  const finalPath = fs.existsSync(envPath) ? envPath : basePath;
-  // call dotenv and it will return an Object with a parsed key
-  const fileEnv = dotenv.config({ path: finalPath }).parsed;
-
-  // reduce it to a nice object, the same as before
-  const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(fileEnv[next]);
-    return prev;
-  }, {});
-
-  const isDevMode = envKeys["NODE_ENV"] === "development";
+  const isDevMode = env.mode === "development";
 
   return {
     mode: isDevMode ? "development" : "production",
