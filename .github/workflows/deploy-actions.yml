@@ -12,6 +12,9 @@ jobs:
     defaults:
       run:
         working-directory: ./front
+      env:
+        API_URL: ${{ secrets.API_URL }}
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -33,13 +36,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-      - name: Create .env file
-      - run: |
-          mkdir functions
-          && jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<< "$SECRETS_CONTEXT" > .env
-          && jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<< "$SECRETS_CONTEXT" > ./functions/.env
-        env:
-          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+      - name: Generate Environment Variables File for Production
+        run: |
+          echo "API_URL=$API_URL" >> .env
+          echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> .env
+      - name: Generate Environment Variables File for Production in Firebase
+        run: |
+          mkdir firebase
+          echo "API_URL=$API_URL" >> ./firebase/.env
+          echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> ./firebase/.env
       - run: npm ci && npm run build
       - name: firebase deploy
         uses: FirebaseExtended/action-hosting-deploy@v0
