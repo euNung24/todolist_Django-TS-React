@@ -35,10 +35,8 @@ jobs:
           node-version: '20'
       - name: Create .env file
       - run: |
-          jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<< "$SECRETS_CONTEXT" > .env
-      - run: |
           mkdir functions
-      - run: |
+          jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<< "$SECRETS_CONTEXT" > .env
           jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<< "$SECRETS_CONTEXT" > ./functions/.env
         env:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
