@@ -43,7 +43,7 @@ export const showError = (errMsg = "서버 요청 중 요류가 발생했습니�
 });
 
 const Api = axios.create({
-  baseURL: process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://pandamon24.pythonanywhere.com",
+  baseURL: process.env.API_URL,
   headers: {
     Authorization: getToken(),
   },
@@ -52,7 +52,7 @@ const Api = axios.create({
 export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
   dispatch,
   _,
-  date
+  date,
 ) => {
   Api.get("/todolist", {
     params: { date: date },

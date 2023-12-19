@@ -2,19 +2,14 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import React from "react";
 
 const GoogleLoginButton = () => {
-  const clientId =
-    "246756656527-15h0r7veg0q4fcaqmbnmhdlo2s8j9ia3.apps.googleusercontent.com";
+  const clientId = process.env.GOOGLE_CLIENT_ID!;
 
   return (
     <>
       <GoogleOAuthProvider clientId={clientId}>
         <GoogleLogin
           onSuccess={(res) => {
-            const baseUrl =
-              process.env.NODE_ENV === "development"
-                ? "http://localhost:8000"
-                : "https://pandamon24.pythonanywhere.com";
-            fetch(baseUrl + "/google/login/callback/", {
+            fetch(process.env.API_URL + "/google/login/callback/", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
