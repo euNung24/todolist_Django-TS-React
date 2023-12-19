@@ -4,14 +4,20 @@ on:
   push:
     branches:
       - github/actions
-    paths:
-      - 'front/**'
+    paths-ignore:
+      - 'back/**'
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: Move Directory
+        run: |
+          cd front
+      - name: Check List files
+        run: |
+          ls
       - name: Setup nodejs
         uses: actions/setup-node@v3
         with:
