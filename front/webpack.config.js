@@ -16,7 +16,6 @@ module.exports = function (env) {
     prev[`process.env.${next}`] = JSON.stringify(fileEnv[next]);
     return prev;
   }, {});
-  console.log(envKeys);
   const isDevMode = envKeys["NODE_ENV"] === "development";
 
   return {
