@@ -18,6 +18,9 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
       - name: Commit files
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
