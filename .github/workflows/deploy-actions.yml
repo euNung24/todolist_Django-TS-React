@@ -6,15 +6,15 @@ on:
       - master
     paths-ignore:
       - 'back/**'
+env:
+  API_URL: ${{ secrets.API_URL }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./front
-      env:
-        API_URL: ${{ secrets.API_URL }}
-        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
