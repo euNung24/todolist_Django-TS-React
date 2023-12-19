@@ -8,6 +8,7 @@ import reducers from "../reducers/index";
 
 import Body from "./Body";
 import Head from "./Head";
+import GoogleLoginButton from './GoogleLoginButton';
 import { GlobalStyle, WrappedStyle } from "../styles/TodoListStyle";
 import { IconContext } from "react-icons";
 import { TodoType } from "../types/apiTypes";

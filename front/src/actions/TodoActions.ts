@@ -4,6 +4,7 @@ import { TodoState } from "../components/Todolist";
 import { TodoAction } from "../types/actionTypes";
 import { CREATE_TODO, DELETE_TODO, ERROR, SET_TODO, UPDATE_TODO } from "./constant";
 import { TodoType } from "../types/apiTypes";
+import { getToken } from "../../utils";
 
 export const setTodo = (todolist: TodoType[]) => ({
   type: SET_TODO,
@@ -36,7 +37,10 @@ export const showError = (errMsg: string) => ({
 });
 
 const Api = axios.create({
-  baseURL: process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://pandamon24.pythonanywhere.com"
+  baseURL: process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://pandamon24.pythonanywhere.com",
+  headers: {
+    Authorization: getToken()
+  }
 });
 
 export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
@@ -45,7 +49,7 @@ export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
   date
 ) => {
   Api.get("/todolist", {
-    params: { date: date }
+    params: { date: date },
   }).then(({ data }) => {
     dispatch(setTodo(data));
   });

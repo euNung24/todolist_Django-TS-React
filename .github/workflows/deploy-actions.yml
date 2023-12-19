@@ -1,0 +1,46 @@
+name: Deploy Actions
+run-name: Upgrade version & Firebase Deploy
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'back/**'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./front
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Commit files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          npm version patch
+          git commit -a -m "upgrade package version"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: master
+          tags: true
+      - name: Setup nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - run: npm ci && npm run build
+      - name: firebase deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          entrypoint: ./front
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_TODOLIST_EUNUNG }}"
+          projectId: todolist-eunung
+          channelId: live
+
+

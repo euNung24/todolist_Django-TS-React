@@ -40,7 +40,7 @@ module.exports = {
     filename: "bundle.[chunkhash].js",
   },
   devServer: {
-    static: { directory: path.join(__dirname, 'dist') },
+    static: { directory: path.join(__dirname, "dist") },
     hot: true,
   },
 };
