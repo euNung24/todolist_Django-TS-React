@@ -2,13 +2,19 @@ import axios from "axios";
 import { ThunkAction } from "redux-thunk";
 import { TodoState } from "../components/Todolist";
 import { TodoAction } from "../types/actionTypes";
-import { CREATE_TODO, DELETE_TODO, ERROR, SET_TODO, UPDATE_TODO } from "./constant";
+import {
+  CREATE_TODO,
+  DELETE_TODO,
+  ERROR,
+  SET_TODO,
+  UPDATE_TODO,
+} from "./constant";
 import { TodoType } from "../types/apiTypes";
 import { getToken } from "../../utils";
 
 export const setTodo = (todolist: TodoType[]) => ({
   type: SET_TODO,
-  payload: todolist
+  payload: todolist,
 });
 
 export const deleteTodo = (id: number, todo: TodoType) => ({
@@ -16,37 +22,37 @@ export const deleteTodo = (id: number, todo: TodoType) => ({
   payload: {
     deleteTodo: {
       id,
-      todo
-    }
-  }
+      todo,
+    },
+  },
 });
 
 export const createTodo = (todolist: TodoType) => ({
   type: CREATE_TODO,
-  payload: todolist
+  payload: todolist,
 });
 
 export const updateTodo = (id: number) => ({
   type: UPDATE_TODO,
-  payload: id
+  payload: id,
 });
 
 export const showError = (errMsg: string) => ({
   type: ERROR,
-  payload: { errMsg }
+  payload: { errMsg },
 });
 
 const Api = axios.create({
-  baseURL: process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://pandamon24.pythonanywhere.com",
+  baseURL: process.env.API_URL,
   headers: {
-    Authorization: getToken()
-  }
+    Authorization: getToken(),
+  },
 });
 
 export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
   dispatch,
   _,
-  date
+  date,
 ) => {
   Api.get("/todolist", {
     params: { date: date },
@@ -71,18 +77,18 @@ export const createTodoThunk: ThunkAction<
   TodoAction
 > = (dispatch, _, todolist) => {
   Api.post(`/todolist/`, todolist).then(({ data }) =>
-    dispatch(createTodo(data))
+    dispatch(createTodo(data)),
   );
 };
 
 export const updateTodoThunk: ThunkAction<
   Promise<TodoType>,
   TodoState,
-  { id: number; isFinished: boolean; },
+  { id: number; isFinished: boolean },
   TodoAction
 > = (dispatch, _, { id, isFinished }) => {
   return Api.patch(`/todolist/${id}/`, {
-    isFinished
+    isFinished,
   }).then(({ data }) => {
     dispatch(updateTodo(data));
     return data;
