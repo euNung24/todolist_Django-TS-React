@@ -15,11 +15,25 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Commit files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          npm version patch
+          git commit -a -m "upgrade package version"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          tags: true
+          branch: ${{ github.head_ref }}
       - name: Setup nodejs
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-      - run: npm ci && npm version patch && npm run build
+      - run: npm ci && npm run build
       - name: firebase deploy
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
