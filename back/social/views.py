@@ -10,14 +10,10 @@ from django.contrib.auth.models import User
 import jwt
 from cmath import exp
 from django.utils.timezone import now
-from config.settings import SIMPLE_JWT
+from config.settings import SIMPLE_JWT, GOOGLE_CLIENT_ID, API_URL
 
 class GoogleLoginView(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
-#     callback_url = 'http://127.0.0.1:8000/google/login/callback'
-#     callback_url = 'http://127.0.0.1:8000/accounts/google/login/callback'
-#     callback_url = 'http://127.0.0.1:8080'
-#     client_class = OAuth2Client
 
 class UserRedirectView(LoginRequiredMixin, RedirectView):
     permanent = False
@@ -28,7 +24,6 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 def google_login(request):
   if request.method == "POST":
     GOOGLE_ID_TOKEN_INFO_URL = 'https://www.googleapis.com/oauth2/v3/tokeninfo'
-    GOOGLE_OAUTH2_CLIENT_ID = '246756656527-15h0r7veg0q4fcaqmbnmhdlo2s8j9ia3.apps.googleusercontent.com'
     id_token = json.loads(request.body)['id_token']
     response = requests.get(
       GOOGLE_ID_TOKEN_INFO_URL,
@@ -41,7 +36,7 @@ def google_login(request):
     data = response.json()
     audience = data['aud']
 
-    if audience != GOOGLE_OAUTH2_CLIENT_ID:
+    if audience != 'GOOGLE_CLIENT_ID':
       raise ValidationError('Invalid audience.')
 
     if not User.objects.filter(email=data['email']).exists():
@@ -54,7 +49,7 @@ def google_login(request):
 
     user = User.objects.get(email=data['email'])
     access_token = jwt.encode({'user_id': user.id,  'exp':now() + SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"]}, SIMPLE_JWT['SIGNING_KEY'], algorithm=SIMPLE_JWT["ALGORITHM"]).decode('utf-8')
-    set_token_url = 'http://localhost:8000/api/token/'
+    set_token_url = API_URL + '/api/token/'
     token_data = requests.post(set_token_url, data={
       "username": user.username,
       "password": "1234qwer"

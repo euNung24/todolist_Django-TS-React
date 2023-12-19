@@ -184,3 +184,6 @@ SIMPLE_JWT = {
 }
 
 REST_USE_JWT = True
+
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+API_URL = os.getenv("API_URL")
