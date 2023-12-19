@@ -3,7 +3,7 @@ run-name: Upgrade version & Firebase Deploy
 on:
   push:
     branches:
-      - github/actions
+      - master
     paths-ignore:
       - 'back/**'
 jobs:
@@ -20,12 +20,12 @@ jobs:
         with:
           node-version: '20'
       - run: npm ci && npm version patch && npm run build
-#      - name: firebase deploy
-#        uses: FirebaseExtended/action-hosting-deploy@v0
-#        with:
-#          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-#          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
-#          projectId: todolist-eunung
-#          channelId: live
+      - name: firebase deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
+          projectId: todolist-eunung
+          channelId: live
 
 
