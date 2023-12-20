@@ -1,10 +1,14 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
+// const Dotenv = require("dotenv-webpack");
+const dotenv = require("dotenv");
+const webpack = require("webpack");
 
 module.exports = function (env) {
   const isDevMode = env.mode === "development";
-
+  dotenv.config({
+    path: isDevMode ? "./.env.development" : "../.vercel/.env.production.local",
+  });
   return {
     mode: isDevMode ? "development" : "production",
     devtool: isDevMode ? "inline-source-map" : "source-map",
@@ -38,9 +42,12 @@ module.exports = function (env) {
         filename: "index.html",
         inject: "body",
       }),
-      new Dotenv({
-        systemvars: true, // 해당 옵션을 추가 작성
+      new webpack.DefinePlugin({
+        "process.env": JSON.stringify(process.env),
       }),
+      // new Dotenv({
+      //   systemvars: true, // 해당 옵션을 추가 작성
+      // }),
       // isDevMode && new BundleAnalyzerPlugin(),
     ].filter(Boolean),
     output: {
