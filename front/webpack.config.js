@@ -41,6 +41,7 @@ module.exports = function (env) {
         template: "./index.html",
         filename: "index.html",
         inject: "body",
+        favicon: "./favicon.png",
       }),
       new webpack.DefinePlugin({
         "process.env": JSON.stringify(process.env),
