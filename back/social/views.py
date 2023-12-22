@@ -36,7 +36,7 @@ def google_login(request):
     data = response.json()
     audience = data['aud']
 
-    if audience != 'GOOGLE_CLIENT_ID':
+    if audience != GOOGLE_CLIENT_ID:
       raise ValidationError('Invalid audience.')
 
     if not User.objects.filter(email=data['email']).exists():
@@ -48,13 +48,14 @@ def google_login(request):
       user.save()
 
     user = User.objects.get(email=data['email'])
-    access_token = jwt.encode({'user_id': user.id,  'exp':now() + SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"]}, SIMPLE_JWT['SIGNING_KEY'], algorithm=SIMPLE_JWT["ALGORITHM"]).decode('utf-8')
+
     set_token_url = API_URL + '/api/token/'
     token_data = requests.post(set_token_url, data={
       "username": user.username,
       "password": "1234qwer"
     })
+    print(set_token_url)
     access_token = token_data.json()['access']
     refresh_token = token_data.json()['refresh']
 
-    return JsonResponse({ 'user' : user.id, 'access_token': access_token, 'refresh_token': refresh_token }, status=201, safe=False)
+    return JsonResponse({ 'user' : user.id, 'picture': data['picture'], 'name': data['name'], 'access_token': access_token, 'refresh_token': refresh_token }, status=201, safe=False)

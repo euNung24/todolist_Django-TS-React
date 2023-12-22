@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 import datetime
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -185,5 +189,5 @@ SIMPLE_JWT = {
 
 REST_USE_JWT = True
 
-GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
-API_URL = os.getenv("API_URL")
+API_URL = env('API_URL')
+GOOGLE_CLIENT_ID = env('GOOGLE_CLIENT_ID')
