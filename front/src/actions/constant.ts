@@ -1,5 +1,8 @@
 export const SET_DATE = "date/SET_DATE" as const;
 
+export const SET_USER = "user/SET_USER" as const;
+export const DELETE_USER = "user/DELETE_USER" as const;
+
 export const SET_TODO = "todolist/SET_TODO" as const;
 export const DELETE_TODO = "todolist/DELETE_TODO" as const;
 export const CREATE_TODO = "todolist/CREATE_TODO" as const;

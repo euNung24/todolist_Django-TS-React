@@ -1,7 +1,10 @@
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../actions/UserActions";
 
 const GoogleLoginButton = () => {
+  const dispatch = useDispatch();
   const clientId = process.env.GOOGLE_CLIENT_ID;
   return (
     <>
@@ -21,8 +24,14 @@ const GoogleLoginButton = () => {
               })
                 .then((res) => res.json())
                 .then((res) => {
-                  localStorage.setItem("token", res.access_token);
-                  location.reload();
+                  dispatch(
+                    setUser({
+                      token: res.access_token,
+                      name: res.name,
+                      profileImg: res.picture,
+                    }),
+                  );
+                  // location.reload();
                 })
                 .catch((e) => {
                   alert("서버 요청 중 오류가 발생했습니다.");

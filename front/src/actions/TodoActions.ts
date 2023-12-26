@@ -9,8 +9,7 @@ import {
   SET_TODO,
   UPDATE_TODO,
 } from "./constant";
-import { TodoType } from "../types/apiTypes";
-import { getToken } from "../../utils";
+import { TodoType, UserType } from "../types/apiTypes";
 
 export const setTodo = (todolist: TodoType[]) => ({
   type: SET_TODO,
@@ -44,18 +43,18 @@ export const showError = (errMsg = "서버 요청 중 요류가 발생했습니�
 
 const Api = axios.create({
   baseURL: process.env.API_URL,
-  headers: {
-    Authorization: getToken(),
-  },
 });
 
 export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
   dispatch,
-  _,
+  getState,
   date,
 ) => {
   Api.get("/todolist", {
     params: { date: date },
+    headers: {
+      Authorization: getState().user.token,
+    },
   })
     .then(({ data }) => {
       dispatch(setTodo(data));
@@ -67,37 +66,53 @@ export const setTodoThunk: ThunkAction<void, TodoState, string, TodoAction> = (
 
 export const deleteTodoThunk: ThunkAction<
   void,
-  TodoState,
+  UserType,
   { id: number; todo: TodoType },
   TodoAction
-> = (dispatch, _, { id, todo }) => {
-  Api.delete(`/todolist/${id}`)
+> = (dispatch, getState, { id, todo }) => {
+  Api.delete(`/todolist/${id}`, {
+    headers: {
+      Authorization: getState().token,
+    },
+  })
     .then((_) => dispatch(deleteTodo(id, todo)))
     .catch((e) => dispatch(showError()));
 };
 
 export const createTodoThunk: ThunkAction<
   void,
-  TodoState,
+  UserType,
   Omit<TodoType, "id">,
   TodoAction
-> = (dispatch, _, todolist) => {
-  Api.post(`/todolist/`, todolist)
+> = (dispatch, getState, todolist) => {
+  Api.post(`/todolist/`, todolist, {
+    headers: {
+      Authorization: getState().token,
+    },
+  })
     .then(({ data }) => dispatch(createTodo(data)))
     .catch((e) => dispatch(showError()));
 };
 
 export const updateTodoThunk: ThunkAction<
   Promise<TodoType>,
-  TodoState,
+  UserType,
   { id: number; isFinished: boolean },
   TodoAction
-> = (dispatch, _, { id, isFinished }) => {
-  return Api.patch(`/todolist/${id}/`, {
-    isFinished,
-  })
+> = (dispatch, getState, { id, isFinished }) => {
+  return Api.patch(
+    `/todolist/${id}/`,
+    {
+      isFinished,
+    },
+    {
+      headers: {
+        Authorization: getState().token,
+      },
+    },
+  )
     .then(({ data }) => {
-      dispatch(updateTodo(data));
+      dispatch(updateTodo(data.id));
       return data;
     })
     .catch((e) => {
