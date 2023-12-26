@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { setDate } from "../actions/DateActions";
 import {
@@ -10,8 +10,8 @@ import {
 } from "../styles/HeadStyle";
 import { MdKeyboardArrowLeft } from "@react-icons/all-files/md/MdKeyboardArrowLeft";
 import { MdKeyboardArrowRight } from "@react-icons/all-files/md/MdKeyboardArrowRight";
-import { getToken } from "../../utils";
 import UserNav from "./UserNav";
+import { TodoState } from "./Todolist";
 
 const weekday = ["일", "월", "화", "수", "목", "금", "토"];
 const Head = () => {
@@ -19,6 +19,7 @@ const Head = () => {
   const [count, setCount] = useState(0);
   const prevCount = useRef<number | null>(null);
   const dispatch = useDispatch();
+  const { token } = useSelector((state: TodoState) => state.user);
 
   const getDate = (count: number) => {
     const newDate = new Date(today.getTime() + 1000 * 24 * 60 * 60 * count);
@@ -63,7 +64,7 @@ const Head = () => {
             style={{ fontSize: "30px", verticalAlign: "middle" }}
           />
         </button>
-        {getToken() && <UserNav />}
+        {token && <UserNav />}
       </StyledButtonWrapper>
     </StyledHead>
   );

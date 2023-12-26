@@ -1,8 +1,13 @@
 import React from "react";
 import { RiLogoutBoxRFill } from "@react-icons/all-files/ri/RiLogoutBoxRFill";
-import { removeToken } from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { TodoState } from "./Todolist";
+import { deleteUser } from "../actions/UserActions";
 
 export default function UserNav() {
+  const { profileImg } = useSelector((state: TodoState) => state.user);
+  const dispatch = useDispatch();
+
   return (
     <div
       style={{
@@ -13,7 +18,7 @@ export default function UserNav() {
       }}
     >
       <img
-        src={localStorage.getItem("picture")!}
+        src={profileImg}
         alt="profile-image"
         style={{
           width: "28px",
@@ -29,8 +34,7 @@ export default function UserNav() {
           cursor: "pointer",
         }}
         onClick={() => {
-          removeToken();
-          location.reload();
+          dispatch(deleteUser());
         }}
       />
     </div>
