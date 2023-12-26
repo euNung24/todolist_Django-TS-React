@@ -26,8 +26,9 @@ export type TodoState = {
 };
 
 const persistConfig = {
-  key: "todolist",
+  key: "user",
   storage,
+  whitelist: ["user"],
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 const store = createStore(
