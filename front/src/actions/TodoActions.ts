@@ -112,7 +112,7 @@ export const updateTodoThunk: ThunkAction<
     },
   )
     .then(({ data }) => {
-      dispatch(updateTodo(data));
+      dispatch(updateTodo(data.id));
       return data;
     })
     .catch((e) => {

@@ -13,29 +13,16 @@ import thunk from "redux-thunk";
 import { todoEffect } from "../middlewares/todoEffects";
 import { PersistGate } from "redux-persist/integration/react";
 
-export type TodoState = {
-  todolist: {
-    ids: number[];
-    todolist: { [id: number]: TodoType };
-    errMsg?: string;
-  };
-  date: { date: string };
-  user: UserType;
+export type TodoListState = {
+  ids: number[];
+  todolist: { [id: number]: TodoType };
+  errMsg?: string;
 };
 
-export const initState: TodoState = {
-  todolist: {
-    ids: [],
-    todolist: {},
-  },
-  date: {
-    date: "",
-  },
-  user: {
-    token: "",
-    name: "",
-    profileImg: "",
-  },
+export type TodoState = {
+  todolist: TodoListState;
+  date: { date: string };
+  user: UserType;
 };
 
 const persistConfig = {
@@ -45,7 +32,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducers);
 const store = createStore(
   persistedReducer,
-  initState,
+  {},
   applyMiddleware(thunk, todoEffect),
 );
 
