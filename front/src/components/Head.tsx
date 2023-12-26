@@ -10,8 +10,8 @@ import {
 } from "../styles/HeadStyle";
 import { MdKeyboardArrowLeft } from "@react-icons/all-files/md/MdKeyboardArrowLeft";
 import { MdKeyboardArrowRight } from "@react-icons/all-files/md/MdKeyboardArrowRight";
-import GoogleLoginButton from "./GoogleLoginButton";
 import { getToken } from "../../utils";
+import UserNav from "./UserNav";
 
 const weekday = ["일", "월", "화", "수", "목", "금", "토"];
 const Head = () => {
@@ -63,9 +63,7 @@ const Head = () => {
             style={{ fontSize: "30px", verticalAlign: "middle" }}
           />
         </button>
-        <div style={{ marginLeft: "auto" }}>
-          {getToken() && <GoogleLoginButton />}
-        </div>
+        {getToken() && <UserNav />}
       </StyledButtonWrapper>
     </StyledHead>
   );
