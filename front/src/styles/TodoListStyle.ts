@@ -5,6 +5,7 @@ export const GlobalStyle = createGlobalStyle`
   ${reset}
   * {
     box-sizing: border-box;
+    font-family: "Gamja Flower", cursive;
   }
 
   button {
