@@ -52,7 +52,7 @@ const Body = () => {
         </StyledFilterButton>
         <StyledFilterButton
           href={"?filter=" + FILTER.INCOMPLETE}
-          $active={filter === FILTER.COMPLETE}
+          $active={filter === FILTER.INCOMPLETE}
         >
           미완료
         </StyledFilterButton>
