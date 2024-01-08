@@ -3,6 +3,7 @@ import { RiLogoutBoxRFill } from "@react-icons/all-files/ri/RiLogoutBoxRFill";
 import { useDispatch, useSelector } from "react-redux";
 import { TodoState } from "./Todolist";
 import { deleteUser } from "../actions/UserActions";
+import { StyledLogoutButton } from "../styles/ButtonStyle";
 
 export default function UserNav() {
   const { profileImg } = useSelector((state: TodoState) => state.user);
@@ -26,17 +27,18 @@ export default function UserNav() {
           borderRadius: "50%",
         }}
       />
-      <RiLogoutBoxRFill
-        title="로그아웃"
-        style={{
-          marginLeft: "4px",
-          fontSize: "28px",
-          // cursor: "pointer",
-        }}
-        onClick={() => {
-          dispatch(deleteUser());
-        }}
-      />
+      <StyledLogoutButton>
+        <RiLogoutBoxRFill
+          title="로그아웃"
+          style={{
+            fontSize: "28px",
+            // cursor: "pointer",
+          }}
+          onClick={() => {
+            dispatch(deleteUser());
+          }}
+        />
+      </StyledLogoutButton>
     </div>
   );
 }

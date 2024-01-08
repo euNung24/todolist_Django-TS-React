@@ -21,3 +21,14 @@ export const StyledFilterButton = styled.a<{ $active?: boolean }>`
     background: #b496c3;
   }
 `;
+
+export const StyledLogoutButton = styled.button`
+  margin-left: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover > * {
+    color: #d93d4e;
+  }
+`;
