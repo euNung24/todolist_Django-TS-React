@@ -6,13 +6,14 @@ export const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
     font-family: "Gamja Flower", cursive;
+    cursor: none;
   }
 
   button {
     border: none;
     background: none;
     padding: 0;
-    cursor: pointer;
+    //cursor: pointer;
     color: #000;
   }
 

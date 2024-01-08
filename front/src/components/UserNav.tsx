@@ -31,7 +31,7 @@ export default function UserNav() {
         style={{
           marginLeft: "4px",
           fontSize: "28px",
-          cursor: "pointer",
+          // cursor: "pointer",
         }}
         onClick={() => {
           dispatch(deleteUser());

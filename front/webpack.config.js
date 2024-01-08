@@ -34,6 +34,10 @@ module.exports = function (env) {
           loader: "html-loader",
           options: { minimize: true },
         },
+        {
+          test: /\.png/,
+          type: "asset/resource",
+        },
       ],
     },
     plugins: [

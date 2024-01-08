@@ -6,22 +6,25 @@ export const StyledLi = styled.li`
   align-items: center;
   font-family: "Gamja Flower", cursive;
   font-size: 20px;
-  cursor: default;
+
   & > div {
     flex: 1;
     display: flex;
     align-items: center;
   }
+
   & .btn-finish:hover {
     color: #5e5955;
-    cursor: pointer;
+    //cursor: pointer;
   }
+
   .btn-delete {
     display: none;
   }
+
   &:hover .btn-delete {
     display: block;
     color: #5e5955;
-    cursor: pointer;
+    //cursor: pointer;
   }
 `;
