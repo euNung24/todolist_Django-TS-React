@@ -9,6 +9,10 @@ export const GlobalStyle = createGlobalStyle`
     cursor: none;
   }
 
+  html[theme="dark-mode"] {
+    filter: invert(100%) hue-rotate(180deg);
+  }
+
   button {
     border: none;
     background: none;
@@ -26,10 +30,47 @@ export const GlobalStyle = createGlobalStyle`
   #root {
     width: 100vw;
     height: 100vh;
-    background: #5E5955;
+    background: #a9a9a9;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: background 0.3s;
+  }
+
+  html[theme="dark-mode"] #root {
+    background: #8d8d8d;
+  }
+
+  html[theme="dark-mode"] img {
+    filter: invert(100%) hue-rotate(180deg);
+  }
+
+  .theme {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+    margin-left: auto;
+
+    &:hover {
+      background: #bdbdbd;
+      border-radius: 50%;
+    }
+
+    &:active {
+      animation-duration: 0.15s;
+      animation-name: rotate;
+    }
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(180deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
   }
 `;
 

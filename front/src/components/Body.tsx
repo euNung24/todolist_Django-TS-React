@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Input from "./Input";
 import { TodoState } from "./Todolist";
@@ -7,8 +7,11 @@ import { StyledBody, StyledH3 } from "../styles/BodyStyle";
 import ListItem from "./ListItem";
 import { FaFilter } from "@react-icons/all-files/fa/FaFilter";
 import { StyledFilterButton } from "../styles/ButtonStyle";
+import { IoMdSunny } from "@react-icons/all-files/io/IoMdSunny";
+import { IoMoon } from "@react-icons/all-files/io5/IoMoon";
 
 const Body = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const FILTER = {
     ALL: "all",
     COMPLETE: "complete",
@@ -28,7 +31,13 @@ const Body = () => {
 
   useEffect(() => {
     errMsg && alert(errMsg);
-  });
+    if (isDarkMode) {
+      document.documentElement.setAttribute("theme", "dark-mode");
+    } else {
+      document.documentElement.removeAttribute("theme");
+    }
+    return () => {};
+  }, [isDarkMode]);
   return (
     <StyledBody>
       <StyledH3>To do List 목록</StyledH3>
@@ -56,6 +65,18 @@ const Body = () => {
         >
           미완료
         </StyledFilterButton>
+        <div
+          className="theme"
+          onClick={() => {
+            setIsDarkMode((prev) => !prev);
+          }}
+        >
+          {isDarkMode ? (
+            <IoMoon fontSize="20px" />
+          ) : (
+            <IoMdSunny fontSize="20px" />
+          )}
+        </div>
       </div>
 
       {token ? (
