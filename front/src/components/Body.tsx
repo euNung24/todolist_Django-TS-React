@@ -9,6 +9,9 @@ import { FaFilter } from "@react-icons/all-files/fa/FaFilter";
 import { StyledFilterButton } from "../styles/ButtonStyle";
 import { IoMdSunny } from "@react-icons/all-files/io/IoMdSunny";
 import { IoMoon } from "@react-icons/all-files/io5/IoMoon";
+import { FaRegStickyNote } from "@react-icons/all-files/fa/FaRegStickyNote";
+import StickyNote from "./StickyNote";
+import { BiPlus } from "@react-icons/all-files/bi/BiPlus";
 
 const Body = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -66,6 +69,22 @@ const Body = () => {
           미완료
         </StyledFilterButton>
         <div
+          style={{
+            marginLeft: "auto",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "4px",
+          }}
+        >
+          <FaRegStickyNote fontSize="20px" style={{}} />
+          <BiPlus
+            style={{
+              position: "absolute",
+            }}
+          />
+        </div>
+        <div
           className="theme"
           onClick={() => {
             setIsDarkMode((prev) => !prev);
@@ -96,6 +115,7 @@ const Body = () => {
       ) : (
         <GoogleLoginButton />
       )}
+      <StickyNote />
     </StyledBody>
   );
 };

@@ -50,7 +50,6 @@ export const GlobalStyle = createGlobalStyle`
     justify-content: center;
     align-items: center;
     padding: 4px;
-    margin-left: auto;
 
     &:hover {
       background: #bdbdbd;

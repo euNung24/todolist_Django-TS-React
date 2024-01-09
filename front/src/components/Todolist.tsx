@@ -66,6 +66,7 @@ const Todolist = () => {
               left: cursorPosition[0],
               top: cursorPosition[1],
               pointerEvents: "none",
+              zIndex: 1,
             }}
           />
           <Head />
