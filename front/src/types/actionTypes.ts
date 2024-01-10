@@ -7,6 +7,11 @@ import {
   updateTodo,
 } from "../actions/TodoActions";
 import { deleteUser, setUser } from "../actions/UserActions";
+import {
+  createStickyNote,
+  deleteStickyNote,
+  updateStickyNote,
+} from "../actions/StickyNoteActions";
 
 export type DateAction = ReturnType<typeof setDate>;
 
@@ -20,3 +25,9 @@ export type TodoAction =
   | ReturnType<typeof createTodo>
   | ReturnType<typeof updateTodo>
   | ReturnType<typeof showError>;
+
+export type StickyNoteAction =
+  // | ReturnType<typeof setStickyNote>
+  | ReturnType<typeof deleteStickyNote>
+  | ReturnType<typeof createStickyNote>
+  | ReturnType<typeof updateStickyNote>;

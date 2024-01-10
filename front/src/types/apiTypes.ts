@@ -10,3 +10,12 @@ export interface UserType {
   name: string;
   profileImg: string;
 }
+
+export interface Note {
+  id: string;
+  content: string;
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+}

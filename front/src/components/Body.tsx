@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Input from "./Input";
 import { TodoState } from "./Todolist";
 import GoogleLoginButton from "./GoogleLoginButton";
@@ -12,6 +12,8 @@ import { IoMoon } from "@react-icons/all-files/io5/IoMoon";
 import { FaRegStickyNote } from "@react-icons/all-files/fa/FaRegStickyNote";
 import StickyNote from "./StickyNote";
 import { BiPlus } from "@react-icons/all-files/bi/BiPlus";
+import { Note } from "../types/apiTypes";
+import { createStickyNote } from "../actions/StickyNoteActions";
 
 const Body = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -23,7 +25,12 @@ const Body = () => {
   const { ids, todolist, errMsg } = useSelector(
     (state: TodoState) => state.todolist,
   );
+  const { notes } = useSelector(
+    (state: { stickyNote: { notes: Note[] } }) => state.stickyNote,
+  );
   const { token } = useSelector((state: TodoState) => state.user);
+  const dispatch = useDispatch();
+
   const list = ids.map((id) => todolist[id]);
   const filter = new URLSearchParams(location.search).get("filter");
   const filteredList = filter
@@ -40,7 +47,7 @@ const Body = () => {
       document.documentElement.removeAttribute("theme");
     }
     return () => {};
-  }, [isDarkMode]);
+  }, [isDarkMode, notes]);
   return (
     <StyledBody>
       <StyledH3>To do List 목록</StyledH3>
@@ -75,6 +82,9 @@ const Body = () => {
             justifyContent: "center",
             alignItems: "center",
             padding: "4px",
+          }}
+          onClick={() => {
+            dispatch(createStickyNote());
           }}
         >
           <FaRegStickyNote fontSize="20px" style={{}} />
@@ -115,7 +125,9 @@ const Body = () => {
       ) : (
         <GoogleLoginButton />
       )}
-      <StickyNote />
+      {notes.map((note) => (
+        <StickyNote key={note.id} note={note} />
+      ))}
     </StyledBody>
   );
 };
