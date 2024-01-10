@@ -32,3 +32,16 @@ export const StyledLogoutButton = styled.button`
     color: #d93d4e;
   }
 `;
+
+export const StyledAddStickyNoteButton = styled.div`
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+
+  &:hover {
+    background: #bdbdbd;
+    border-radius: 50%;
+  }
+`;

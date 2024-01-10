@@ -6,7 +6,10 @@ import GoogleLoginButton from "./GoogleLoginButton";
 import { StyledBody, StyledH3 } from "../styles/BodyStyle";
 import ListItem from "./ListItem";
 import { FaFilter } from "@react-icons/all-files/fa/FaFilter";
-import { StyledFilterButton } from "../styles/ButtonStyle";
+import {
+  StyledAddStickyNoteButton,
+  StyledFilterButton,
+} from "../styles/ButtonStyle";
 import { IoMdSunny } from "@react-icons/all-files/io/IoMdSunny";
 import { IoMoon } from "@react-icons/all-files/io5/IoMoon";
 import { FaRegStickyNote } from "@react-icons/all-files/fa/FaRegStickyNote";
@@ -75,14 +78,7 @@ const Body = () => {
         >
           미완료
         </StyledFilterButton>
-        <div
-          style={{
-            marginLeft: "auto",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "4px",
-          }}
+        <StyledAddStickyNoteButton
           onClick={() => {
             dispatch(createStickyNote());
           }}
@@ -93,7 +89,7 @@ const Body = () => {
               position: "absolute",
             }}
           />
-        </div>
+        </StyledAddStickyNoteButton>
         <div
           className="theme"
           onClick={() => {
