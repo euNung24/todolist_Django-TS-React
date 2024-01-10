@@ -64,6 +64,7 @@ function StickyNote({ note }: StickyNoteProps) {
 
     return () => {
       onChangeContent.cancel();
+      onResizeNote.cancel();
       resizeObserver.disconnect();
     };
   }, [onChangeContent]);
