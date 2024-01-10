@@ -8,8 +8,10 @@ import {
 } from "../actions/TodoActions";
 import { deleteUser, setUser } from "../actions/UserActions";
 import {
+  changePositionStickyNote,
   createStickyNote,
   deleteStickyNote,
+  resizeStickyNote,
   updateStickyNote,
 } from "../actions/StickyNoteActions";
 
@@ -27,7 +29,8 @@ export type TodoAction =
   | ReturnType<typeof showError>;
 
 export type StickyNoteAction =
-  // | ReturnType<typeof setStickyNote>
   | ReturnType<typeof deleteStickyNote>
   | ReturnType<typeof createStickyNote>
-  | ReturnType<typeof updateStickyNote>;
+  | ReturnType<typeof updateStickyNote>
+  | ReturnType<typeof resizeStickyNote>
+  | ReturnType<typeof changePositionStickyNote>;

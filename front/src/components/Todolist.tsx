@@ -6,13 +6,13 @@ import reducers from "../reducers/index";
 import Body from "./Body";
 import Head from "./Head";
 import { GlobalStyle, WrappedStyle } from "../styles/TodoListStyle";
-import { TodoType, UserType } from "../types/apiTypes";
-import storage from "redux-persist/lib/storage";
+import { Note, TodoType, UserType } from "../types/apiTypes";
 import { persistReducer, persistStore } from "redux-persist";
 import thunk from "redux-thunk";
 import { todoEffect } from "../middlewares/todoEffects";
 import { PersistGate } from "redux-persist/integration/react";
 import cursor from "../cursor.png";
+import storage from "redux-persist/lib/storage";
 
 export type TodoListState = {
   ids: number[];
@@ -26,12 +26,17 @@ export type TodoState = {
   user: UserType;
 };
 
+export type StickyNoteState = {
+  notes: Note[];
+};
+
 const persistConfig = {
-  key: "user",
+  key: "root",
   storage,
   whitelist: ["user"],
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
+
 const store = createStore(
   persistedReducer,
   {},

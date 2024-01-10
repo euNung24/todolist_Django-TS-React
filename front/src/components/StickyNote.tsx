@@ -1,11 +1,19 @@
-import React, { ChangeEvent, useCallback, useEffect, useMemo } from "react";
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 // @ts-ignore
 import Draggable from "@eunung/draggable";
 import { GoX } from "@react-icons/all-files/go/GoX";
 import { Note } from "../types/apiTypes";
 import { useDispatch } from "react-redux";
 import {
+  changePositionStickyNote,
   deleteStickyNote,
+  resizeStickyNote,
   updateStickyNote,
 } from "../actions/StickyNoteActions";
 import { debounce } from "underscore";
@@ -15,6 +23,7 @@ interface StickyNoteProps {
 }
 
 function StickyNote({ note }: StickyNoteProps) {
+  const noteRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const onChangeContent = useMemo(
     () =>
@@ -29,15 +38,40 @@ function StickyNote({ note }: StickyNoteProps) {
     dispatch(deleteStickyNote(note.id));
   }, []);
 
+  const onResizeNote = useMemo(
+    () =>
+      debounce((entries: ResizeObserverEntry[]) => {
+        const { width, height } = entries[0].contentRect;
+        dispatch(resizeStickyNote(note.id, [width, height]));
+      }, 300),
+    [],
+  );
+
+  const onChangePosition = useMemo(
+    () =>
+      debounce((e: ChangeEvent<HTMLDivElement>) => {
+        const { left, top } = e.target.getBoundingClientRect();
+        dispatch(changePositionStickyNote(note.id, [left, top]));
+      }, 300),
+    [],
+  );
+
   useEffect(() => {
+    const resizeObserver = new ResizeObserver(onResizeNote);
+    if (noteRef.current) {
+      resizeObserver.observe(noteRef.current);
+    }
+
     return () => {
       onChangeContent.cancel();
+      resizeObserver.disconnect();
     };
   }, [onChangeContent]);
 
   return (
     <Draggable x={note.x} y={note.y}>
       <div
+        ref={noteRef}
         style={{
           width: `${note.width}px`,
           height: `${note.height}px`,
@@ -51,7 +85,9 @@ function StickyNote({ note }: StickyNoteProps) {
           boxShadow: "5px 5px 20px rgba(0, 0, 0, 0.2)",
         }}
       >
-        <Draggable.Handle>
+        <Draggable.Handle
+          onDrag={(e: ChangeEvent<HTMLDivElement>) => onChangePosition(e)}
+        >
           <div
             style={{
               display: "flex",
@@ -68,7 +104,7 @@ function StickyNote({ note }: StickyNoteProps) {
         <textarea
           name="note"
           placeholder="메모를 작성하세요."
-          defaultValue=""
+          defaultValue={note.content}
           style={{
             width: "100%",
             height: "100%",
