@@ -6,12 +6,8 @@ on:
       - master
     paths-ignore:
       - 'back/**'
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 jobs:
-  tag_generate_push:
+  generate-tag:
     runs-on: ubuntu-latest
     if: "contains(github.event.head_commit.message, 'deploy application')"
     defaults:
@@ -27,6 +23,8 @@ jobs:
       - name: Generate Git Tag
         id: generate_tag
         run: |
+          VERSION_PREFIX="v"
+          VERSION_MAJOR_MINOR="3.0"
           VERSION_PATCH=$(git tag --list "${VERSION_PREFIX}${VERSION_MAJOR_MINOR}.*" --sort=-version:refname | head -n 1 | grep -oE '[0-9]+$')
           if [ -z "$VERSION_PATCH" ]; then
           VERSION_PATCH=0
@@ -36,9 +34,6 @@ jobs:
           NEW_TAG="${VERSION_PREFIX}${VERSION_MAJOR_MINOR}.${VERSION_PATCH}"
           echo "Generated new tag: $NEW_TAG"
           echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
-        env:
-          VERSION_PREFIX: v
-          VERSION_MAJOR_MINOR: 3.0
 
       - name: Push Git Tag
         run: |
@@ -47,6 +42,10 @@ jobs:
           git tag $NEW_TAG
           git push origin $NEW_TAG
   deploy:
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -65,3 +64,5 @@ jobs:
         run: vercel build --prod --token=${VERCEL_TOKEN}
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --token=${VERCEL_TOKEN}
+
+
