@@ -1,13 +1,13 @@
 {
   "name": "front",
-  "version": "3.0.65",
+  "version": "3.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "webpack --env mode=production",
     "start": "webpack serve --env mode=development",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "npm version patch && git add package.json && git commit -m 'npm version patch && deploy application' && git push"
+    "deploy": "npm version patch && git add package.* && git commit -m 'npm version patch && deploy application' && git push"
   },
   "keywords": [],
   "author": "euNung",
